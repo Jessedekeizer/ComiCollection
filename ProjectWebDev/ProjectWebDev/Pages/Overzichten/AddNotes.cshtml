@@ -51,9 +51,9 @@
     </div>
 </nav>
 <div class="container d-flex justify-content-center align-items-center" style="height: 100vh">
-    <form method="post" asp-page-handler="Toevoegen">
+    <form method="post" asp-page-handler="Toevoegen" name="TextNotes" id="TextNotes">
         <div class="row">
-            <textarea name="Text1" cols="60" rows="10"></textarea>
+            <textarea name="Text1" id="Text1" cols="60" rows="10" form="TextNotes">@Model.Notes</textarea>
         </div>
         <div class="row">
             <button style="background-color: #730fc3; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Add Notes</button>
