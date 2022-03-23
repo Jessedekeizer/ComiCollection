@@ -1,0 +1,195 @@
+@page
+@model ProjectWebDev.Pages.Overzichten.UpdateBook
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/navbarcss.css">
+    <link rel="stylesheet" href="/css/AddBookStyle.css">
+    <title></title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" id="navbarid">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/Overzichten/HomeScreen">Comicollection</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="navbar-toggler-icon"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav  nav-pills nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link active" id="navactive" aria-current="page" href="/Overzichten/UltimateCollection">
+                        <text style="color: white">Ultimate Collection</text>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="navbg" href="/Overzichten/SupportScreen">
+                        <text style="color: white">Support</text>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="navbg" href="">
+                        <text style="color: white">My Collection</text>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="navbg" href="/Login/LoginScreen">
+                        <text style="color: white">My Account/Login</text>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-fluid position-absolute" id="Cont">
+
+    <div class="row" id="row">
+        <div class="col-6" style="background-color: white" id="Row1">
+            <form method="post" asp-page-handler="UpdateBook">
+                <div class="col d-flex justify-content-center" id="listbox" style="margin-top: 35px; margin-right: 32px">
+                    <ul style="list-style-type:none">
+
+                        @foreach (var stripboek in Model.stripboeken)
+                        {
+                            <li id="List1" style="border-bottom: none">
+                                <div class="form-group">
+                                    <input asp-for="BoekData.Titel" type="text" value="@stripboek.Titel" class="form-control" placeholder="Titel" required style="text-align: center"/>
+                                    <span class="invalid-feedback" asp-validation-for="BoekData.Titel"></span>
+                                </div>
+                            </li>
+                            <li id="List1" style="border-bottom: none">
+                                <div class="form-group">
+                                    <input asp-for="BoekData.Uitgavejaar" type="number" value="@stripboek.Uitgavejaar" class="form-control" placeholder="Uitgavejaar" data-maxlength="4" oninput="this.value=this.value.slice(0,this.dataset.maxlength)" required style="text-align: center"/>
+                                    <span class="invalid-feedback" asp-validation-for="BoekData.Uitgavejaar"></span>
+                                </div>
+                            </li>
+                            <li id="List1" style="border-bottom: none">
+                                <div class="form-group">
+                                    <input asp-for="BoekData.Isbn" type="number" value="@stripboek.Isbn" class="form-control" placeholder="Isbn" min="1000000000" data-minLength="10" data-maxlength="13" oninput="this.value=this.value.slice(0,this.dataset.maxlength)" required style="text-align: center"/>
+                                    <span class="invalid-feedback" asp-validation-for="BoekData.Isbn"></span>
+                                </div>
+                            </li>
+                            <li id="List1" style="border-bottom: none">
+                                <div class="form-group">
+                                    <input asp-for="BoekData.Blzs" type="number" value="@stripboek.Blzs" class="form-control" placeholder="Blzs" required style="text-align: center"/>
+                                    <span class="invalid-feedback" asp-validation-for="BoekData.Blzs"></span>
+                                </div>
+                            </li>
+                            <li id="List1" style="border-bottom: none">
+                                <div class="form-group">
+                                    <input asp-for="BoekData.Reeks" type="text" value="@stripboek.Reeks" class="form-control" placeholder="Reeks" required style="text-align: center"/>
+                                    <span class="invalid-feedback" asp-validation-for="BoekData.Reeks"></span>
+                                </div>
+                            </li>
+                            <li id="List1">
+                                <div class="form-group">
+                                    <input asp-for="BoekData.Uitgeverij" type="text" value="@stripboek.Uitgeverij" class="form-control" placeholder="Uitgeverij" required style="text-align: center"/>
+                                    <span class="invalid-feedback" asp-validation-for="BoekData.Uitgeverij"></span>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <button id="UpdateBook" type="submit" style="background-color: #730fc3; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Update Book</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-6 d-flex" style="background-color: #92E6D0" id="Row2">
+
+            @if (Model.Auteurs != null)
+            {
+                {
+                    @foreach (var bijdrager in Model.Auteurs)
+                    {
+                        <div class="row" style="margin-top: 60px">
+                            <ul style="list-style-type:none">
+                                <form method="post" asp-page-handler="UpdateTekenaar">
+                                    <input type="hidden" name="Tekenaar_id" value="@bijdrager.Bijdrager_id"/>
+                                    <li id="List1" style="border-bottom: none">
+                                        <input type="text" placeholder="Tekenaar Naam" id="inputList" name="TekenaarNaam" maxlength="128" value="@bijdrager.Naam" required style="text-align: center"/>
+                                    </li>
+                                    <li id="List1" style="border-bottom: none">
+                                        <input type="date" required id="inputList" name="TekenGeboortedatum" value="@(bijdrager.Geboortedatum.ToString("yyyy/MM/dd"))" style="text-align: center"/>
+                                    </li>
+                                    <li id="List1" style="border-bottom: none">
+                                        <input type="text" placeholder="Sexe" pattern="[m,v,o]" maxlength="1" id="inputList" oninput="this.value = this.value.replace(/[^mvo]/, '')" name="TekenSexe" value="@bijdrager.Sexe" required style="text-align: center"/>
+                                    </li>
+                                    <li id="List1">
+                                        <input type="text" placeholder="Wiki-link" id="inputList" name="TekeWikiLink" maxlength="128" value="@bijdrager.Wikilink" required style="text-align: center"/>
+                                    </li>
+                                    <div class="row d-flex justify-content-center">
+                                        <button type="submit" style="background-color: #730fc3; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Update Tekenaar</button>
+                                    </div>
+                                </form>
+                            </ul>
+                        </div>
+                    }
+                }
+            }
+            @if (Model.Tekenaars != null)
+            {
+                @foreach (var bijdrager in Model.Tekenaars)
+                {
+                    <div class="row" style="margin-top: 60px">
+                        <ul style="list-style-type:none">
+                            <li id="List1" style="border-bottom: none">
+                                <div class="form-group">
+                                    <input asp-for="BoekData.TekenNaam" type="text" value="@bijdrager.Naam" class="form-control" placeholder="Tekenaar naam" maxlength="128" style="text-align: center"/>
+                                    <span class="invalid-feedback" asp-validation-for="BoekData.TekenNaam"></span>
+                                </div>
+                            </li>
+                            <li id="List1" style="border-bottom: none">
+                                <div class="form-group">
+                                    <input asp-for="BoekData.TekenGeboortedatum" type="date" value="@bijdrager.Geboortedatum" class="form-control" placeholder="JJJJ-MM-DD" style="text-align: center"/>
+                                    <span class="invalid-feedback" asp-validation-for="BoekData.TekenGeboortedatum"></span>
+                                </div>
+                            </li>
+                            <li id="List1" style="border-bottom: none">
+                                <div class="form-group">
+                                    <input asp-for="BoekData.TekenSexe" type="text" value="@bijdrager.Sexe" class="form-control" placeholder="Sexe" pattern="[m,v,o]" maxlength="1" oninput="this.value = this.value.replace(/[^mvo]/, '')" style="text-align: center"/>
+                                    <span class="invalid-feedback" asp-validation-for="BoekData.TekenSexe"></span>
+                                </div>
+                            </li>
+                            <li id="List1">
+                                <div class="form-group">
+                                    <input asp-for="BoekData.TekenWikilink" type="text" value="@bijdrager.Wikilink" class="form-control" placeholder="Wiki-link" maxlength="128" style="text-align: center"/>
+                                    <span class="invalid-feedback" asp-validation-for="BoekData.TekenWikilink"></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            }
+
+
+        </div>
+    </div>
+
+    @foreach (var stripboek in Model.stripboeken)
+    {
+        <div class="row d-flex justify-content-center">
+            <form asp-page-handler="Delete" method="post">
+                <input type="hidden" name="Strip_id" value="@stripboek.Strip_id"/>
+                <button id="RemoveBook" style="background-color: #730fc3; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Remove Book</button>
+            </form>
+        </div>
+    }
+</div>
+
+
+</body>
+</html>

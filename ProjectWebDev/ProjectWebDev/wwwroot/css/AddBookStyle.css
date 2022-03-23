@@ -1,0 +1,27 @@
+#Cont{
+    height: 100%;
+}
+
+#row{
+    height: 100%;
+}
+
+#Row2{
+    border-left: 2px solid #56A28E;
+    flex-direction: column;
+    align-items: center;
+}
+
+#inputList{
+    border: none;
+    width: 348px;
+    height: 38px;
+}
+
+#List1{
+    border: 1px solid gray;
+    width: 350px;
+    height: 40px;
+}
+
+

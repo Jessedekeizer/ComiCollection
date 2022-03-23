@@ -1,0 +1,227 @@
+﻿@page
+@using ProjectWebDev.Helpers
+@model ProjectWebDev.Pages.Overzichten.MyCollection
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/navbarcss.css">
+    <title>MyCollection</title>
+</head>
+<body>
+@{ int Itemnum = (@Model.settings.perpage * (@Model.settings.page)) - (@Model.settings.perpage - 1); }
+@{ string sDisplayValue; }
+<nav class="navbar navbar-expand-lg navbar-light" id="navbarid">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/Overzichten/HomeScreen">Comicollection</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="navbar-toggler-icon"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav  nav-pills nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link" id="navbg" href="/Overzichten/UltimateCollection">
+                        <text style="color: white;">Ultimate Collection</text>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="navbg" href="/Overzichten/SupportScreen">
+                        <text style="color: white;">Support</text>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" id="navactive" href="">
+                        <text style="color: white;">My Collection</text>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="navbg" href="/Login/LoginScreen">
+                        <text style="color: white;">My Account/Login</text>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="row col-12" id="Screen">
+    <div class="container col-2" style="background-color: #8dd7cf">
+        <h4>Filters:</h4>
+        <form asp-page-handler="Search" method="post">
+            <td>Zoek hier: </td>
+            <input type="text" id="search" name="search" class="form-control form-control-sm"/>
+            <button id="search" name="Search" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 5px">Zoeken</button>
+        </form>
+        Sorteer op:
+        <form asp-page-handler="Order" method="post">
+            <input type="hidden" name="order" value="@SearchConstant.Search_reeks"/>
+            <button id="order" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Reeks</button>
+        </form>
+        <form asp-page-handler="Order" method="post">
+            <input type="hidden" name="order" value="auteur"/>
+            <button id="order" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Auteurs</button>
+        </form>
+        <form asp-page-handler="Order" method="post">
+            <input type="hidden" name="order" value="@SearchConstant.Search_uitgeverij"/>
+            <button id="order" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Uitgeverijs</button>
+        </form>
+        <form asp-page-handler="Order" method="post">
+            <input type="hidden" name="order" value="@SearchConstant.Search_blzs"/>
+            <button id="order" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Blzs</button>
+        </form>
+        <form asp-page-handler="Order" method="post">
+            <input type="hidden" name="order" value="@SearchConstant.Search_rating"/>
+            <button id="order" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Rating</button>
+        </form>
+        @if (@Model.settings.direction == "ASC")
+        {
+            <form asp-page-handler="Direction" method="post">
+                <input type="hidden" name="Direction" value="DESC"/>
+                <button id="Direction" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px">Dalend</button>
+            </form>
+        }
+        else
+        {
+            <form asp-page-handler="Direction" method="post">
+                <input type="hidden" name="Direction" value="ASC"/>
+                <button id="Direction" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px">Stijgend</button>
+            </form>
+        }
+        Items per pagina:
+        <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
+                <input type="hidden" name="Perpage" value="@PPConstant.PP_1"/>
+                <button id="Perpage" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_1</button>
+            </form>
+            <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
+                <input type="hidden" name="Perpage" value="@PPConstant.PP_2"/>
+                <button id="Perpage" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_2</button>
+            </form>
+            <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
+                <input type="hidden" name="Perpage" value="@PPConstant.PP_3"/>
+                <button id="Perpage" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; width: 100px; height: 30px">@PPConstant.PP_3</button>
+            </form>
+        <form asp-page-handler="Delete" method="post">
+            <button id="Delete" name="Delete Filter" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 3px">Delete Filter</button>
+        </form>
+        <div>
+            <h4>Boek toevoegen:</h4>
+            <form asp-page-handler="AddScreen" method="post">
+                <button style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 3px">Add book</button>
+            </form>
+        </div>
+    </div>
+    <div class="container col-10" style="margin: 0; padding: 0;" id="Table">
+        <div class="col">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th style="width: 5%">Num</th>
+                    <th style="width: 35%" scope="col-2">Titel</th>
+                    <th style="width: 15%" scope="col-2">Reeks</th>
+                    <th style="width: 15%" scope="col-2">Auteur</th>
+                    <th style="width: 15%" scope="col-2">Uitgeverij</th>
+                    <th style="width: 5%" scope="col-1">Blzs</th>
+                    <th style="width: 5%" scope="col-1">Gelezen</th>
+                    <th style="width: 5%" scope="col-1">Notes</th>
+                    <th style="width: 5%" scope="col-1">Rating</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var stripboek in Model.Stripboekje)
+                {
+                    <tr>
+                        <td>
+                            @Itemnum
+                        </td>
+                        <td>@stripboek.Titel</td>
+                        <td>@stripboek.Reeks</td>
+                        <td>
+                            @foreach (var rol in Model.Rollen)
+                            {
+                                if ((rol.Strip_id == stripboek.Strip_id) && (rol.rol == "auteur"))
+                                {
+                                    @foreach (var bijdrager in Model.Bijdragers)
+                                    {
+                                        if ((bijdrager.Bijdrager_id == rol.Bijdrager_id))
+                                        {
+                                            @(bijdrager.Naam + ", ")
+                                        }
+                                    }
+                                }
+                            }
+                        </td>
+                        <td>@stripboek.Uitgeverij</td>
+                        <td>@stripboek.Blzs</td>
+                        <td>IsGelezen</td>
+                        <td>
+                            <form asp-page-handler="Notes" method="post">
+                                <input type="hidden" name="Strip_id" value="@stripboek.Strip_id"/>
+                                <button id="trashButton" style=" background-color: mediumpurple; border: none;">
+                                    <i class='fa fa-eye'></i>
+                                </button>
+                            </form>
+                        </td>
+                        @if (stripboek.Ratings == 0)
+                        {
+                            <td>N/A</td>
+                        }
+                        else
+                        {
+                            {
+                                sDisplayValue = @stripboek.Ratings.ToString("0.00");
+                            }
+                            <td> @sDisplayValue </td>
+                        }
+                    </tr>
+                    {
+                        Itemnum = Itemnum + 1;
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+        <div class="col d-flex justify-content-center">
+            <form method="get">
+                @if (Model.settings.page - 2 > 0)
+                {
+                    <button name="action" value="previouspreviousPage" type="submit">
+                        @(Model.settings.page - 2)
+                    </button>
+                }
+                @if (Model.settings.page - 1 > 0)
+                {
+                    <button name="action" value="previousPage" type="submit">
+                        @(Model.settings.page - 1)
+                    </button>
+                }
+                @(Model.settings.page)
+                @if (Model.settings.page < @Model.settings.Totalpage)
+                {
+                    <button name="action" value="nextPage" type="submit">
+                        @(Model.settings.page + 1)
+                    </button>
+                }
+                @if (Model.settings.page < @Model.settings.Totalpage - 1 || Model.settings.page < @Model.settings.Totalpage - 2)
+                {
+                    <button name="action" value="nextnextPage" type="submit">
+                        @(Model.settings.page + 2)
+                    </button>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+</body>
+</html>

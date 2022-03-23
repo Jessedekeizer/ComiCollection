@@ -1,0 +1,25 @@
+.navbar-nav {
+    margin: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.nav-pills {
+    margin: 10px;
+}
+
+#navbarid {
+    background-color: #b2acfa;
+}
+
+#navbg {
+    width: 98%;
+    background-color: #6558f5;
+}
+
+#navactive {
+    width: 98%;
+    background-color: #730fc3;
+}
