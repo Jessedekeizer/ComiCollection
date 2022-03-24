@@ -17,9 +17,10 @@ public class AccountScreenUser : PageModel
     
     public string Gebruiker_ID;
     
-    public IActionResult OnGet(string warning)
+    public IActionResult OnGet(string warning, string warning2)
     {
         Wachtwoord = warning;
+        Gebruikersnaam = warning2;
         Gebruikers = new GebruikerRepository().GetUser(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
@@ -45,9 +46,9 @@ public class AccountScreenUser : PageModel
     
     public IActionResult OnPostUpdateUsern([FromForm] string UsernUpdate)
     {
-        Gebruikersnaam = new GebruikerRepository().UpdateUsername(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), UsernUpdate);
+        Gebruikersnaam = new GebruikerRepository().UpdateUsername(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), UsernUpdate );
 
-        return RedirectToPage();
+        return RedirectToPage(new{warning = Gebruikersnaam});
     }
     
     public IActionResult OnPostUpdatePassw([FromForm] string PasswordUpd, [FromForm] string PasswordCurrent)

@@ -88,6 +88,10 @@
             <div class="container" style="margin-bottom: 25px">
                 <div class="row">
                     <form method="post" asp-page-handler="UpdateUsern">
+                        @if (Model.Wachtwoord == "used")
+                        {
+                            <h3 id="warning" style="color: red">Username already in use</h3>
+                        }
                         <h7>Change Username to:</h7><input type="text" placeholder="new Username" name="UsernUpdate"/>
                         <button type="submit" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Username</button>
                     </form>

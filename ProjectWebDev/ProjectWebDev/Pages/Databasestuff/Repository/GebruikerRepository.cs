@@ -78,15 +78,24 @@ public class GebruikerRepository
     
     public string UpdateUsername(int Gebruiker_id, string UsernUpdate)
     {
-        string sql = @"UPDATE gebruiker SET gebruikers_naam = @UsernUpdate WHERE gebruiker_id = @Gebruiker_id";
-        using var connection = GetConnection();
-        string username = connection.ExecuteScalar<string>(sql, new {Gebruiker_id, UsernUpdate});
-        return username;
+        if (!checkUsername2(UsernUpdate))
+        {
+            string sql = @"UPDATE gebruiker SET gebruikers_naam = @UsernUpdate WHERE gebruiker_id = @Gebruiker_id";
+            using var connection = GetConnection();
+            string username = connection.ExecuteScalar<string>(sql, new {Gebruiker_id, UsernUpdate});
+            return username;
+        }
+
+        return "used";
     }
     
     public string UpdatePassword(int Gebruiker_id, string UsernUpdate, string OldPassword)
     {
-        if(checkPassword2(Gebruiker_id, OldPassword ))
+        if(checkPassword2(Gebruiker_id, OldPassword))
+        {
+            return "succes";
+        }
+        else
         {
             string sql = @"UPDATE gebruiker SET wachtwoord = @UsernUpdate WHERE gebruiker_id = @Gebruiker_id";
             using var connection = GetConnection();
@@ -94,7 +103,7 @@ public class GebruikerRepository
             return password;
         }
         
-            return "succes";
+            
         
     }
     
@@ -107,4 +116,12 @@ public class GebruikerRepository
         return amount;
     }
     
+    public bool checkUsername2(string Username)
+    {
+        string sql = "SELECT COUNT(gebruiker_id) FROM gebruiker WHERE gebruikers_naam = @Username";
+            
+        using var connection = GetConnection();
+        bool amount = connection.ExecuteScalar<bool>(sql, new{Username});
+        return amount;
+    }
 }
