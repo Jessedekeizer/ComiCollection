@@ -42,13 +42,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="navbg" href="">
-                        <text style="color: white;">My Collection</text>
+                    <a class="nav-link" id="navbg" href="/Overzichten/CheckBookScreen">
+                        <text style="color: white;">Check book</text>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="navbg" href="/Login/LoginScreen">
-                        <text style="color: white;">My Account/Login</text>
+                    <a class="nav-link" id="navbg" href="/Overzichten/AccountScreenUser">
+                        <text style="color: white;">My Account</text>
                     </a>
                 </li>
             </ul>
@@ -164,11 +164,30 @@
                         </td>
                         <td>@stripboek.Uitgeverij</td>
                         <td>@stripboek.Blzs</td>
-                        <td>IsGelezen</td>
+                        @if (@stripboek.gelezen == 1)
+                                                {
+                                                    <td>
+                                                        <form asp-page-handler="Gelezen" method="post" style="margin-left: 10px">
+                                                            <input type="hidden" name="trueorfalse" value="false"/>
+                                                            <input type="hidden" name="strip_id" value="@stripboek.Strip_id"/>
+                                                            <button id="Gelezen">Ja</button>
+                                                        </form>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td>
+                                                        <form asp-page-handler="Gelezen" method="post" style="margin-left: 10px">
+                                                            <input type="hidden" name="trueorfalse" value="true"/>
+                                                            <input type="hidden" name="strip_id" value="@stripboek.Strip_id"/>
+                                                            <button id="Gelezen">Nee</button>
+                                                        </form>
+                                                    </td>
+                                                }
                         <td>
                             <form asp-page-handler="Update" method="post">
                                 <input type="hidden" name="Strip_id" value="@stripboek.Strip_id"/>
-                                <button id="trashButton" style=" background-color: mediumpurple; border: none;">
+                                <button id="trashButton" style=" background-color: mediumpurple; border: none;">    
                                     <i class='fa fa-plus-circle'></i>
                                 </button>
                             </form>

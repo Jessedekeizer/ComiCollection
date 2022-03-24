@@ -45,8 +45,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="navbg" href="/Login/LoginScreen">
-                        <text style="color: white;">My Account/Login</text>
+                    <a class="nav-link" id="navbg" href="/Overzichten/AccountScreenUser">
+                        <text style="color: white;">My Account</text>
                     </a>
                 </li>
             </ul>
@@ -99,17 +99,17 @@
         }
         Items per pagina:
         <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
-                <input type="hidden" name="Perpage" value="@PPConstant.PP_1"/>
-                <button id="Perpage" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_1</button>
-            </form>
-            <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
-                <input type="hidden" name="Perpage" value="@PPConstant.PP_2"/>
-                <button id="Perpage" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_2</button>
-            </form>
-            <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
-                <input type="hidden" name="Perpage" value="@PPConstant.PP_3"/>
-                <button id="Perpage" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; width: 100px; height: 30px">@PPConstant.PP_3</button>
-            </form>
+            <input type="hidden" name="Perpage" value="@PPConstant.PP_1"/>
+            <button id="Perpage" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_1</button>
+        </form>
+        <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
+            <input type="hidden" name="Perpage" value="@PPConstant.PP_2"/>
+            <button id="Perpage" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_2</button>
+        </form>
+        <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
+            <input type="hidden" name="Perpage" value="@PPConstant.PP_3"/>
+            <button id="Perpage" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; width: 100px; height: 30px">@PPConstant.PP_3</button>
+        </form>
         <form asp-page-handler="Delete" method="post">
             <button id="Delete" name="Delete Filter" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 3px">Delete Filter</button>
         </form>
@@ -162,7 +162,26 @@
                         </td>
                         <td>@stripboek.Uitgeverij</td>
                         <td>@stripboek.Blzs</td>
-                        <td>IsGelezen</td>
+                        @if (@stripboek.gelezen == 1)
+                        {
+                            <td>
+                                <form asp-page-handler="Gelezen" method="post" style="margin-left: 10px">
+                                    <input type="hidden" name="trueorfalse" value="false"/>
+                                    <input type="hidden" name="strip_id" value="@stripboek.Strip_id"/>
+                                    <button id="Gelezen">Ja</button>
+                                </form>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <form asp-page-handler="Gelezen" method="post" style="margin-left: 10px">
+                                    <input type="hidden" name="trueorfalse" value="true"/>
+                                    <input type="hidden" name="strip_id" value="@stripboek.Strip_id"/>
+                                    <button id="Gelezen">Nee</button>
+                                </form>
+                            </td>
+                        }
                         <td>
                             <form asp-page-handler="Notes" method="post">
                                 <input type="hidden" name="Strip_id" value="@stripboek.Strip_id"/>
