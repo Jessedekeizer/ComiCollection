@@ -1,0 +1,155 @@
+@page
+@model ProjectWebDev.Pages.Overzichten.UpdateBook
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/navbarcss.css">
+    <link rel="stylesheet" href="/css/AddBookStyle.css">
+    <title></title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" id="navbarid">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/Overzichten/HomeScreen">Comicollection</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="navbar-toggler-icon"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav  nav-pills nav-fill">
+                <li class="nav-item">
+                    <a class="nav-link active" id="navactive" aria-current="page" href="/Overzichten/UltimateCollection">
+                        <text style="color: white">Ultimate Collection</text>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="navbg" href="/Overzichten/SupportScreen">
+                        <text style="color: white">Support</text>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="navbg" href="/Overzichten/MyCollection">
+                        <text style="color: white">My Collection</text>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="navbg" href="/Login/LoginScreen">
+                        <text style="color: white">My Account/Login</text>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="container-fluid position-absolute" id="Cont">
+
+    <div class="row" id="row">
+        <div class="col-6" style="background-color: white" id="Row1">
+            <div class="col d-flex justify-content-center" id="listbox" style="margin-top: 35px; margin-right: 32px">
+                <ul style="list-style-type:none">
+
+                    @foreach (var stripboek in Model.stripboeken)
+                    {
+                        <li id="List1" style="border-bottom: none">
+                            <p>@stripboek.Titel</p>
+                        </li>
+                        <li id="List1" style="border-bottom: none">
+                            <p>@stripboek.Uitgavejaar</p>
+                        </li>
+
+                        <li id="List1" style="border-bottom: none">
+                            <p>@stripboek.Isbn</p>
+                        </li>
+                        <li id="List1" style="border-bottom: none">
+                            <p>@stripboek.Blzs</p>
+                        </li>
+                        <li id="List1" style="border-bottom: none">
+                            <p>@stripboek.Reeks</p>
+                        </li>
+                        <li id="List1">
+                            <p>@stripboek.Uitgeverij</p>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-6 d-flex" style="background-color: #92E6D0" id="Row2">
+
+            @if (Model.Auteurs != null)
+            {
+                {
+                    @foreach (var bijdrager in Model.Auteurs)
+                    {
+                        <div class="row" style="margin-top: 60px">
+                            <ul style="list-style-type:none">
+                                <li id="List1" style="border-bottom: none">
+                                    <p>@bijdrager.Naam</p>
+                                </li>
+                                <li id="List1" style="border-bottom: none">
+                                    <p>@(bijdrager.Geboortedatum.ToString("yyyy/MM/dd"))</p>
+                                </li>
+                                <li id="List1" style="border-bottom: none">
+                                    <p>@bijdrager.Sexe</p>
+                                </li>
+                                <li id="List1">
+                                    <p>@bijdrager.Wikilink</p>
+                                </li>
+                            </ul>
+                        </div>
+                    }
+                }
+            }
+            @if (Model.Tekenaars != null)
+            {
+                @foreach (var bijdrager in Model.Tekenaars)
+                {
+                    <div class="row" style="margin-top: 60px">
+                        <ul style="list-style-type:none">
+                            <li id="List1" style="border-bottom: none">
+                                <p>@bijdrager.Naam</p>
+                            </li>
+                            <li id="List1" style="border-bottom: none">
+                                <p>@bijdrager.Geboortedatum</p>
+                            </li>
+                            <li id="List1" style="border-bottom: none">
+                                <p>@bijdrager.Sexe</p>
+                            </li>
+                            <li id="List1">
+                                <p>@bijdrager.Wikilink</p>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            }
+
+
+        </div>
+    </div>
+
+    @foreach (var stripboek in Model.stripboeken)
+    {
+        <div class="row d-flex justify-content-center">
+            <form asp-page-handler="Remove" method="post">
+                <input type="hidden" name="Strip_id" value="@stripboek.Strip_id"/>
+                <button id="RemoveBook" style="background-color: #730fc3; color: white; border-radius: 5px; border: none; width: 175px; height: 80px; margin-top: 125px">Remove from Collection</button>
+            </form>
+        </div>
+    }
+</div>
+
+
+</body>
+</html>

@@ -10,12 +10,33 @@ public class HomeScreen : PageModel
 {
     public IEnumerable<Stripboek> Top10 { get; set; }
 
-    
+    public string HREF3 { get; set; }
+    public string HREF4 { get; set; }
+    public string LINKNAAM3 { get; set; }
+    public string LINKNAAM4 { get; set; }
     public void OnGet()
     {
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
-        if (Logged_in == null)
-            RedirectToPage("/Login/Loginscreen");
+        if (Logged_in != null)
+        {
+            string userrol =
+                new GebruikerRepository().GetUserRol(
+                    Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
+           
+            ButtonNamer namer = new ButtonNamer();
+            HREF3 = namer.Button3Href(userrol);
+            LINKNAAM3 = namer.Button3Name(userrol);
+            HREF4 = namer.Button4Href(userrol);
+            LINKNAAM4 = namer.Button4Name(userrol);
+        }
+        else
+        {
+            HREF3 = "/Overzichten/MyCollection";
+            LINKNAAM3 = "My Collection";
+            HREF4 = "/Login/LoginScreen";
+            LINKNAAM4 = "Login";
+        }
+           
         
         Top10 = new StripboekRepository().GetTop10();
     }

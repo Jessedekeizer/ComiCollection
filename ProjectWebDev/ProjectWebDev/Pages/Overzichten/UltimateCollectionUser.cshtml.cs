@@ -13,9 +13,32 @@ public class UltimateCollectionUser : PageModel
     public IEnumerable<Rol> Rollen { get; set; }
     public IEnumerable<Bijdrager> Bijdragers { get; set; }
     public SiteSettings settings { get; set; }
+    public string HREF4 { get; set; }
+    public string LINKNAAM4 { get; set; }
 
-    public void OnGet(string action = "")
+    public IActionResult OnGet(string action = "")
     {
+        string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
+        if (Logged_in != null)
+        {
+            string userrol =
+                new GebruikerRepository().GetUserRol(
+                    Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
+
+            if (userrol != "u")
+            {
+                return RedirectToPage("/Overzichten/UltimateCollection");
+            }
+            ButtonNamer namer = new ButtonNamer();
+            HREF4 = namer.Button4Href(userrol);
+            LINKNAAM4 = namer.Button4Name(userrol);
+        }
+        else
+        {
+            HREF4 = "/Login/LoginScreen";
+            LINKNAAM4 = "Login";
+        }
+        
         //Maakt nieuw settings object aan om te gebruiken voor de methodes.
         settings = new SiteSettings();
         string json;
@@ -84,6 +107,7 @@ public class UltimateCollectionUser : PageModel
         //Zet de settingsobject weer om in json (soort string) code.
         json = JsonConvert.SerializeObject(settings);
         Response.Cookies.Append("settings", json.ToString());
+        return Page();
     }
 
 
@@ -207,15 +231,33 @@ public class UltimateCollectionUser : PageModel
         return RedirectToPage();
     }
 
-    public IActionResult OnPostUpdate([FromForm] int Strip_id)
+    public IActionResult OnPostAdd([FromForm] int Strip_id)
     {
+        string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
+        if (Logged_in == null)
+            return RedirectToPage("/Login/Loginscreen");
+        string userrol =
+            new GebruikerRepository().GetUserRol(
+                Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
+        if (userrol != "u")
+            return RedirectToPage("/Overzichten/UltimateCollection");
+        
+        new BezitRepository().AddToCollection(Strip_id,
+            Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         //Wanneer je op update klikt, geeft hij strip_id mee en word je geredirect naar Updatebook.
         //Je neemt de Strip_id mee om bij UpdateBook te vertellen welke boek je nou updaten wilt.
-        return RedirectToPage("/Overzichten/UpdateBook", new {strip_id = Strip_id});
+        
+        return RedirectToPage();
     }
 
     public IActionResult OnPostAddScreen()
     {
         return RedirectToPage("/Overzichten/AddBook");
+    }
+    
+    public IActionResult OnPostCheckBook([FromForm] int Strip_id)
+    {
+        //Wanneer je op de titel klikt, ga je naar de Overview pagina van het boek.
+        return RedirectToPage("/Overzichten/OverViewBook", new {strip_id = Strip_id});
     }
 }

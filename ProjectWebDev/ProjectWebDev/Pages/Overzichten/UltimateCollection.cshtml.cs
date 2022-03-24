@@ -25,6 +25,12 @@ public class UltimateCollection : PageModel
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in == null)
             return RedirectToPage("/Login/Loginscreen");
+        string userrol =
+            new GebruikerRepository().GetUserRol(
+                Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
+        if (userrol == "u")
+            return RedirectToPage("/Overzichten/UltimateCollectionUser");
+        
         
         //Maakt nieuw settings object aan om te gebruiken voor de methodes.
         settings = new SiteSettings();
@@ -228,5 +234,10 @@ public class UltimateCollection : PageModel
     public IActionResult OnPostAddScreen()
     {
         return RedirectToPage("/Overzichten/AddBook");
+    }
+    public IActionResult OnPostGelezen([FromForm] int Strip_id, [FromForm] string trueorfalse)
+    {
+        new StripboekRepository().UpdateRead(Strip_id, Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)) ,trueorfalse);
+        return RedirectToPage();
     }
 }

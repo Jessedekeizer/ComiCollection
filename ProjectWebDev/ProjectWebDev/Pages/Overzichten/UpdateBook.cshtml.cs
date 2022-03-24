@@ -47,7 +47,6 @@ public class UpdateBook : PageModel
         idStr = Request.Cookies["stripid"];
         Strip_id = Int32.Parse(idStr);
         StripboekRepository boek = new StripboekRepository();
-        BoekData.Nsfw = false;
         BoekData.Isvisible = false;
 
         boek.Update(Strip_id, BoekData.Titel, BoekData.Isbn, BoekData.Uitgavejaar, BoekData.Blzs,

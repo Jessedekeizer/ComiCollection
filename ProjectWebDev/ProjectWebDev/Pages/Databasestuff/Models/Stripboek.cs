@@ -11,6 +11,8 @@ public class Stripboek
     public string Uitgeverij { get; set; }
 
     public decimal Ratings { get; set; } = 0;
+
+    public int gelezen { get; set; } = 0;
     
     public bool Nsfw { get; set; }
     
