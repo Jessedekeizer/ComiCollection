@@ -80,14 +80,15 @@ public class StripboekRepository
         INNER JOIN Rol R ON R.strip_id = S.strip_id
         INNER JOIN Bijdrager B ON B.bijdrager_id = R.bijdrager_id
 
-        WHERE Isvisible = false AND R.rol = 'auteur' AND
-        isbn LIKE @search
+        WHERE Isvisible = false AND 
+              R.rol = 'auteur' AND
+        (isbn LIKE @search
         OR titel LIKE @search
         OR uitgavejaar LIKE @search
         OR blzs LIKE @search 
         OR reeks LIKE @search
         OR uitgeverij LIKE @search
-        OR B.naam LIKE @search
+        OR B.naam LIKE @search)
         GROUP BY S.strip_id " + Orderresult + " " + Directionresult + " LIMIT @limiter, @perpage";
 
         using var connection = GetConnection();
@@ -111,12 +112,12 @@ public class StripboekRepository
     {
         string sql = @"SELECT COUNT(Strip_id) FROM Stripboek
         WHERE Isvisible = false AND
-        isbn LIKE @search
+        (isbn LIKE @search
         OR titel LIKE @search
         OR uitgavejaar LIKE @search
         OR blzs LIKE @search 
         OR reeks LIKE @search
-        OR uitgeverij LIKE @search";
+        OR uitgeverij LIKE @search)";
 
         using var connection = GetConnection();
         search = "%" + search + "%";
@@ -180,7 +181,7 @@ public class StripboekRepository
         
     }
     
-    public IEnumerable<Stripboek> GetMyCollection(int limiter, string search, string order, string direction, int perpage, int gebruiker_id)
+    public IEnumerable<Stripboek> GetMyCollection(int limiter, string search, string order, string direction, int perpage, int gebruikerid)
     {
         string Orderresult;
         string Directionresult;
@@ -198,7 +199,7 @@ public class StripboekRepository
             default: Directionresult = "DESC"; break;
         }
         
-        string sql = @"SELECT S.*, AVG(Bt.score) as Ratings
+        string sql = @"SELECT S.*, AVG(Bt.score) as Ratings, Bz.gelezen
         FROM stripboek S
             
         LEFT JOIN Beoordeelt Bt ON Bt.strip_id = S.strip_id
@@ -207,20 +208,61 @@ public class StripboekRepository
         LEFT JOIN Bezit Bz ON Bz.strip_id = S.strip_id
         LEFT JOIN Gebruiker Gb ON Gb.gebruiker_id = Bz.gebruiker_id
 
-        WHERE Isvisible = false AND R.rol = 'auteur' AND
-        isbn LIKE @search
+        WHERE Isvisible = false AND 
+              R.rol = 'auteur' AND 
+              Gb.gebruiker_id = @gebruikerid AND
+        (isbn LIKE @search
         OR titel LIKE @search
         OR uitgavejaar LIKE @search
         OR blzs LIKE @search 
         OR reeks LIKE @search
         OR uitgeverij LIKE @search
-        OR B.naam LIKE @search
+        OR B.naam LIKE @search)
         GROUP BY S.strip_id " + Orderresult + " " + Directionresult + " LIMIT @limiter, @perpage";
 
         using var connection = GetConnection();
         search = "%" + search + "%";
 
-        var stripboek = connection.Query<Stripboek>(sql, new {limiter, search, Orderresult, Directionresult, perpage});
+        var stripboek = connection.Query<Stripboek>(sql, new {limiter, search, Orderresult, Directionresult, perpage, gebruikerid});
         return stripboek;
+    }
+    public int GetCountMy(string search, int gebruikerid)
+    {
+        string sql = @"SELECT COUNT(S.Strip_id) FROM Stripboek S
+    
+        INNER JOIN Bezit Bz ON Bz.strip_id = S.strip_id
+        INNER JOIN Gebruiker Gb ON Gb.gebruiker_id = Bz.gebruiker_id
+
+        WHERE Isvisible = false AND
+        Gb.gebruiker_id = @gebruikerid AND
+        (isbn LIKE @search
+        OR titel LIKE @search
+        OR uitgavejaar LIKE @search
+        OR blzs LIKE @search 
+        OR reeks LIKE @search
+        OR uitgeverij LIKE @search)";
+
+        using var connection = GetConnection();
+        search = "%" + search + "%";
+        int amount = connection.ExecuteScalar<int>(sql, new {search, gebruikerid});
+        return amount;
+    }
+
+    public void UpdateRead(int strip_id, int gebruikerid, string trueorfalse)
+    {
+        int tf;
+        switch (trueorfalse)
+        {
+            case "true": tf = 1; break;
+            default: tf = 0; break;
+        }
+        
+        string sql = @"
+                UPDATE Bezit SET 
+                    gelezen = @tf
+                WHERE Strip_id = @strip_id AND gebruiker_id = @gebruikerid;";
+            
+        using var connection = GetConnection();
+        connection.Query(sql, new{strip_id, gebruikerid, tf});
     }
 }

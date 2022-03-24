@@ -15,8 +15,14 @@ public class MyCollection : PageModel
     public IEnumerable<Bijdrager> Bijdragers { get; set; }
     public SiteSettings settings { get; set; }
 
-    public void OnGet(string action = "")
+    public IActionResult OnGet(string action = "")
     {
+        string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
+        if (Logged_in == null)
+        {
+            return RedirectToPage("/Login/Loginscreen");
+        }
+        
         //Maakt nieuw settings object aan om te gebruiken voor de methodes.
         settings = new SiteSettings();
         string json;
@@ -51,7 +57,7 @@ public class MyCollection : PageModel
         //Haalt op hoeveel stripboeken er zijn op een bepaalde search waarde.
         //Als er 21 boeken zijn en je wilt per pagina 10 laten zien, doet hij 21 boeken / per pagina aantal,
         //hier komt 2 uit en daarna + 1 om een extra pagina voor rest waarde.
-        settings.Totalpage = ((new StripboekRepository().GetCount(settings.searchitem) / settings.perpage) + 1);
+        settings.Totalpage = (((new StripboekRepository().GetCountMy(settings.searchitem, Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)) / settings.perpage) + 1)));
 
 
         //Kijkt welke actie je uit voert, welke knop je drukt en gaat vervolgens naar die pagina.
@@ -79,12 +85,14 @@ public class MyCollection : PageModel
         // welke pagina je hebt en waar je op gefiltert / gesearcht hebt.
         Stripboekje = new StripboekRepository().GetMyCollection((settings.page * settings.perpage - settings.perpage),
             settings.searchitem, settings.orderitem, settings.direction, settings.perpage, Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
+        
         Rollen = new RolRepository().Get();
         Bijdragers = new BijdragerRepository().Get();
 
         //Zet de settingsobject weer om in json (soort string) code.
         json = JsonConvert.SerializeObject(settings);
         Response.Cookies.Append("settings", json.ToString());
+        return Page();
     }
 
 
@@ -218,5 +226,11 @@ public class MyCollection : PageModel
     public IActionResult OnPostAddScreen()
     {
         return RedirectToPage("/Overzichten/AddBook");
+    }
+
+    public IActionResult OnPostGelezen([FromForm] int Strip_id, [FromForm] string trueorfalse)
+    {
+        new StripboekRepository().UpdateRead(Strip_id, Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)) ,trueorfalse);
+        return RedirectToPage();
     }
 }
