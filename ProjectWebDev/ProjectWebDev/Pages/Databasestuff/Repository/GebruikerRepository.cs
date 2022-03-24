@@ -83,4 +83,28 @@ public class GebruikerRepository
         string username = connection.ExecuteScalar<string>(sql, new {Gebruiker_id, UsernUpdate});
         return username;
     }
+    
+    public string UpdatePassword(int Gebruiker_id, string UsernUpdate, string OldPassword)
+    {
+        if(checkPassword2(Gebruiker_id, OldPassword ))
+        {
+            string sql = @"UPDATE gebruiker SET wachtwoord = @UsernUpdate WHERE gebruiker_id = @Gebruiker_id";
+            using var connection = GetConnection();
+            string password = connection.ExecuteScalar<string>(sql, new {Gebruiker_id, UsernUpdate});
+            return password;
+        }
+        
+            return "succes";
+        
+    }
+    
+    public bool checkPassword2(int Gebruiker_id, string Password)
+    {
+        string sql = "SELECT COUNT(gebruiker_id) FROM gebruiker WHERE wachtwoord = @Password AND gebruiker_id = @Gebruiker_id";
+
+        using var connection = GetConnection();
+        bool amount = connection.ExecuteScalar<bool>(sql, new {Gebruiker_id, Password});
+        return amount;
+    }
+    
 }

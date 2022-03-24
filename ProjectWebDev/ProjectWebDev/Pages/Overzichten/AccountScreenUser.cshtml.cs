@@ -11,14 +11,15 @@ public class AccountScreenUser : PageModel
 {
     public string Mail { get; set; }
     
+    public string Wachtwoord { get; set; }
     public string Gebruikersnaam { get; set; }
     public IEnumerable<Gebruiker> Gebruikers { get; set; }
     
     public string Gebruiker_ID;
     
-    public IActionResult OnGet()
+    public IActionResult OnGet(string warning)
     {
-        
+        Wachtwoord = warning;
         Gebruikers = new GebruikerRepository().GetUser(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
@@ -47,5 +48,12 @@ public class AccountScreenUser : PageModel
         Gebruikersnaam = new GebruikerRepository().UpdateUsername(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), UsernUpdate);
 
         return RedirectToPage();
+    }
+    
+    public IActionResult OnPostUpdatePassw([FromForm] string PasswordUpd, [FromForm] string PasswordCurrent)
+    {
+        Wachtwoord = new GebruikerRepository().UpdatePassword(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), PasswordUpd, PasswordCurrent);
+
+        return RedirectToPage(new{warning = Wachtwoord});
     }
 }
