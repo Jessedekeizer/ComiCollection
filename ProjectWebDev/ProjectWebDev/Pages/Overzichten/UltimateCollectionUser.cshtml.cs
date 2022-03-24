@@ -254,4 +254,10 @@ public class UltimateCollectionUser : PageModel
     {
         return RedirectToPage("/Overzichten/AddBook");
     }
+    
+    public IActionResult OnPostCheckBook([FromForm] int Strip_id)
+    {
+        //Wanneer je op de titel klikt, ga je naar de Overview pagina van het boek.
+        return RedirectToPage("/Overzichten/OverViewBook", new {strip_id = Strip_id});
+    }
 }

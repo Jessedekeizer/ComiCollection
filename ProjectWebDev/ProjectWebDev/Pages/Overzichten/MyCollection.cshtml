@@ -143,7 +143,15 @@
                         <td>
                             @Itemnum
                         </td>
-                        <td>@stripboek.Titel</td>
+                        <td>
+                            <form asp-page-handler="CheckBook" method="post">
+                                <input type="hidden" name="Strip_id" value="@stripboek.Strip_id"/>
+                                <button id="Checkbutton" style=" background-color: transparent; border: none;">
+                                    @stripboek.Titel
+                                </button>
+                            </form>
+
+                        </td>
                         <td>@stripboek.Reeks</td>
                         <td>
                             @foreach (var rol in Model.Rollen)
