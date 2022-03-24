@@ -233,4 +233,10 @@ public class MyCollection : PageModel
         new StripboekRepository().UpdateRead(Strip_id, Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)) ,trueorfalse);
         return RedirectToPage();
     }
+    
+    public IActionResult OnPostCheckBook([FromForm] int Strip_id)
+    {
+        //Wanneer je op de titel klikt, ga je naar de Overview pagina van het boek.
+        return RedirectToPage("/Overzichten/OverViewMyBook", new {strip_id = Strip_id});
+    }
 }

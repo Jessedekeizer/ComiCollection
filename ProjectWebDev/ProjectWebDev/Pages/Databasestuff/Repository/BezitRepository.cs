@@ -32,7 +32,14 @@ public class BezitRepository
             connection.Query(sql, new {strip_id, gebruikerid});
         }
     }
-    
+    public void DeleteFromMyCollection(int strip_id, int gebruikerid)
+    {
+        string sql = @"DELETE FROM Bezit WHERE Strip_id = @strip_id AND gebruiker_id = @gebruikerid";
+
+        using var connection = GetConnection();
+        connection.Query(sql, new {strip_id, gebruikerid});
+    }
+
     public void Delete(int strip_id)
     {
         //Query voor het verwijderen van een bezit(of het gelezen is en de notes)
@@ -42,6 +49,7 @@ public class BezitRepository
         connection.Query(sql, new {strip_id});
     }
 
+    
     public string GetNotes(int strip_id, int gebruiker_id)
     {
         string sql = @"SELECT notes FROM Bezit WHERE Strip_id = @strip_id AND gebruiker_id = @gebruiker_id";
