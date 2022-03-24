@@ -23,8 +23,8 @@
 </head>
 <body>
 
-@{ int Rang = 1;}
-@{ string sDisplayValue;}
+@{ int Rang = 1; }
+@{ string sDisplayValue; }
 <nav class="navbar navbar-expand-lg navbar-light" id="navbarid">
     <div class="container-fluid">
         <a class="navbar-brand" href="/Overzichten/HomeScreen">Comicollection</a>
@@ -65,9 +65,41 @@
         </div>
         <div class="col-6" style="background-color: #92E6D0; border-left: 2px solid #56A28E;">
             <h2 class="d-flex justify-content-center" style="margin-top: 10px">Account informatie</h2>
-            
-            
-            
+
+            <table class="table table-bordered">
+
+                @foreach (var gebruiker in Model.Gebruikers)
+                {
+                    <tr>
+                        <th>Username: </th>
+                        <td>@gebruiker.Gebruikers_naam</td>
+                    </tr>
+                    <tr>
+                        <th>Email: </th>
+                        <td>@gebruiker.Email</td>
+                    </tr>
+                    <tr>
+                        <th>Functie: </th>
+                        <td>@gebruiker.Functie</td>
+                    </tr>
+                }
+            </table>
+
+            <div class="container" style="margin-bottom: 25px">
+                <div class="row">
+                    <form method="post" asp-page-handler="UpdateUsern">
+                        <h7>Change Username to:</h7><input type="text" placeholder="new Username" name="UsernUpdate"/>
+                        <button type="submit" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Username</button>
+                    </form>
+                </div>
+                <div class="row">
+                    <form method="post" asp-page-handler="UpdateMail">
+                        <h7>Change Email to:</h7><input type="text" placeholder="new Email" name="EmailUpd"/>
+                        <button type="submit" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Email</button>
+                    </form>
+                </div>
+            </div>
+
             <form method="post" asp-page-handler="Logout">
                 <button type="submit" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px" name="Logout">Logout</button>
             </form>

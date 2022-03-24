@@ -59,4 +59,28 @@ public class GebruikerRepository
         string amount = connection.ExecuteScalar<string>(sql, new {Gebruiker_id});
         return amount;
     }
+
+    public IEnumerable<Gebruiker> GetUser(int Gebruiker_id)
+    {
+        string sql = @"SELECT * FROM gebruiker WHERE gebruiker_id = @Gebruiker_id";
+        using var connection = GetConnection();
+        var gebruiker = connection.Query<Gebruiker>(sql, new {Gebruiker_id});
+        return gebruiker;
+    }
+    
+    public string UpdateEmail(int Gebruiker_id, string EmailUpd)
+    {
+        string sql = @"UPDATE gebruiker SET email = @EmailUpd WHERE gebruiker_id = @Gebruiker_id";
+        using var connection = GetConnection();
+        string email = connection.ExecuteScalar<string>(sql, new {Gebruiker_id, EmailUpd});
+        return email;
+    }
+    
+    public string UpdateUsername(int Gebruiker_id, string UsernUpdate)
+    {
+        string sql = @"UPDATE gebruiker SET gebruikers_naam = @UsernUpdate WHERE gebruiker_id = @Gebruiker_id";
+        using var connection = GetConnection();
+        string username = connection.ExecuteScalar<string>(sql, new {Gebruiker_id, UsernUpdate});
+        return username;
+    }
 }

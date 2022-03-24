@@ -16,11 +16,12 @@ public class UltimateCollection : PageModel
     public IEnumerable<Stripboek> Stripboeken { get; set; }
     public IEnumerable<Rol> Rollen { get; set; }
     public IEnumerable<Bijdrager> Bijdragers { get; set; }
-    public IEnumerable<KleurenSchema> Kleuren { get; set; }
+    public KleurenSchema Kleuren { get; set; }
     public SiteSettings settings { get; set; }
 
     public IActionResult OnGet(string action = "")
     {
+        Kleuren = new KleurenSchema();
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in == null)
             return RedirectToPage("/Login/Loginscreen");
