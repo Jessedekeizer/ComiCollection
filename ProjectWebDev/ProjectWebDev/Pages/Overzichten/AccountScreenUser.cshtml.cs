@@ -21,12 +21,11 @@ public class AccountScreenUser : PageModel
     {
         Wachtwoord = warning;
         Gebruikersnaam = warning2;
-        Gebruikers = new GebruikerRepository().GetUser(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in == null)
            return RedirectToPage("/Login/Loginscreen");
-        
+        Gebruikers = new GebruikerRepository().GetUser(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         Gebruiker_ID = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         return Page();
     }

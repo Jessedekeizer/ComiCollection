@@ -125,15 +125,15 @@ public class StripboekRepository
         return amount;
     }
     
-    public void AddBook(String Titel, Int64 ISBN, int Uitgavejaar, int Blzs, string Reeks, string Uitgeverij)
+    public void AddBook(String Titel, Int64 ISBN, int Uitgavejaar, int Blzs, string Reeks, string Uitgeverij, bool Nsfw)
     {
         //Voeg een stripboek toe
         string sql = @"
-                INSERT INTO stripboek (titel, isbn, uitgavejaar, blzs, reeks, uitgeverij) 
-                VALUES (@Titel, @ISBN, @Uitgavejaar, @Blzs, @Reeks, @Uitgeverij)";
+                INSERT INTO stripboek (titel, isbn, uitgavejaar, blzs, reeks, uitgeverij, nsfw) 
+                VALUES (@Titel, @ISBN, @Uitgavejaar, @Blzs, @Reeks, @Uitgeverij, @Nsfw)";
 
         using var connection = GetConnection();
-        connection.Query<Stripboek>(sql, new{Titel, ISBN, Uitgavejaar, Blzs, Reeks,Uitgeverij });
+        connection.Query<Stripboek>(sql, new{Titel, ISBN, Uitgavejaar, Blzs, Reeks,Uitgeverij, Nsfw });
     }
 
     public void Delete(int Strip_id)

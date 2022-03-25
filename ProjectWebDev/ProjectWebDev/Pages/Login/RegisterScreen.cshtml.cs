@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using Dapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ProjectWebDev.Pages.Databasestuff;
@@ -37,33 +38,22 @@ public class RegisterScreen : PageModel
             return Page();
         }
         
-        int chkUser = new GebruikerRepository().checkUsername(Register.Username);
-        int chkEmail = new GebruikerRepository().checkEmail(Register.Email);
-        if ((chkUser == 0)&&(chkEmail == 0))
+        bool chkUser = new GebruikerRepository().checkUsername(Register.Username);
+        bool chkEmail = new GebruikerRepository().checkEmail(Register.Email);
+        if (!chkUser && !chkEmail)
         {
-            new GebruikerRepository().AddUser(Register.Username, Register.Email, Register.Password, 'u');
+            var hashedPassword = new PasswordHasher<object?>().HashPassword(null, Register.Password);
+            new GebruikerRepository().AddUser(Register.Username, Register.Email, hashedPassword, 'u');
             return RedirectToPage();
-        } 
-        else if (chkUser >= 1)
-        {
+        }
+        if (chkUser)
             return RedirectToPage(new {warning = 1});
-        }
-        else if (chkEmail >= 1)
-        {
-            
+        
+        if (chkEmail)
             return RedirectToPage(new {warning = 2});
-        }
-        else
-        {
-            return RedirectToPage();
-        }
+        
+        return RedirectToPage();
     }
-    private IDbConnection GetConnection()
-    {
-        return new DbUtils().Connect();
-    }
-
-    
 }
 
 public class Register

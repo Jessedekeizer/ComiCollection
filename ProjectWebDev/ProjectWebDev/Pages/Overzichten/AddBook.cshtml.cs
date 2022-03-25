@@ -14,12 +14,12 @@ public class AddBook : PageModel
     }
 
     //Voegt alle waarden van de onpost in de 3 queries om ze toetevoegen in het database.
-    public void OnPost()
+    public IActionResult OnPost()
     {
         //Voegt alle waarden van een boek en stuurt ze door naar de AddBook methode
         StripboekRepository boek = new StripboekRepository();
         boek.AddBook(BoekData.Titel, BoekData.Isbn, BoekData.Uitgavejaar, BoekData.Blzs, BoekData.Reeks,
-            BoekData.Uitgeverij);
+            BoekData.Uitgeverij, BoekData.Nsfw);
 
 
         BijdragerRepository bijdrager = new BijdragerRepository();
@@ -44,5 +44,7 @@ public class AddBook : PageModel
                 BoekData.TekenWikilink);
             rol.AddRol("tekenaar");
         }
+
+        return RedirectToPage();
     }
 }

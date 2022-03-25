@@ -19,20 +19,20 @@ public class GebruikerRepository
         return Gebruiker_ID;
     }
     
-    public int checkUsername(string Username)
+    public bool checkUsername(string Username)
     {
         string sql = "SELECT COUNT(gebruiker_id) FROM gebruiker WHERE gebruikers_naam = @Username";
             
         using var connection = GetConnection();
-        int amount = connection.ExecuteScalar<int>(sql, new{Username});
+        bool amount = connection.ExecuteScalar<bool>(sql, new{Username});
         return amount;
     }
-    public int checkEmail(string Email)
+    public bool checkEmail(string Email)
     {
         string sql = "SELECT COUNT(gebruiker_id) FROM gebruiker WHERE email = @Email";
             
         using var connection = GetConnection();
-        int amount = connection.ExecuteScalar<int>(sql, new{Email});
+        bool amount = connection.ExecuteScalar<bool>(sql, new{Email});
         return amount;
     }
     public void AddUser(string Username, string Email, String Password, char Functie)
@@ -55,6 +55,14 @@ public class GebruikerRepository
     public string GetUserRol(int Gebruiker_id)
     {
         string sql = @"SELECT functie FROM gebruiker WHERE gebruiker_id = @Gebruiker_id";
+        using var connection = GetConnection();
+        string amount = connection.ExecuteScalar<string>(sql, new {Gebruiker_id});
+        return amount;
+    }
+    
+    public string GetPassword(int Gebruiker_id)
+    {
+        string sql = @"SELECT wachtwoord FROM gebruiker WHERE gebruiker_id = @Gebruiker_id";
         using var connection = GetConnection();
         string amount = connection.ExecuteScalar<string>(sql, new {Gebruiker_id});
         return amount;
