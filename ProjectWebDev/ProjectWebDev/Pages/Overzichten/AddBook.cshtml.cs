@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProjectWebDev.Helpers;
 using ProjectWebDev.Pages.Databasestuff.Models;
 using ProjectWebDev.Pages.Databasestuff.Repository;
 
@@ -12,6 +13,12 @@ public class AddBook : PageModel
 
     public void OnGet()
     {
+        string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
+        if (Logged_in == null)
+        {
+            RedirectToPage("/Login/Loginscreen");
+        }
+        
         Kleuren = new KleurenSchema();
     }
 

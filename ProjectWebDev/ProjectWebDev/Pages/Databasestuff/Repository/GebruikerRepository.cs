@@ -42,15 +42,6 @@ public class GebruikerRepository
         using var connection = GetConnection();
         connection.Query<Gebruiker>(sql, new{Username, Email, Password, Functie});
     }
-    
-    public int checkPassword(string Password)
-    {
-        string sql = "SELECT COUNT(gebruiker_id) FROM gebruiker WHERE wachtwoord = @Password";
-
-        using var connection = GetConnection();
-        int amount = connection.ExecuteScalar<int>(sql, new {Password});
-        return amount;
-    }
 
     public string GetUserRol(int Gebruiker_id)
     {
@@ -84,50 +75,25 @@ public class GebruikerRepository
         return email;
     }
     
-    public string UpdateUsername(int Gebruiker_id, string UsernUpdate)
+    public int UpdateUsername(int Gebruiker_id, string UsernUpdate)
     {
-        if (!checkUsername2(UsernUpdate))
+        if (!checkUsername(UsernUpdate))
         {
             string sql = @"UPDATE gebruiker SET gebruikers_naam = @UsernUpdate WHERE gebruiker_id = @Gebruiker_id";
             using var connection = GetConnection();
-            string username = connection.ExecuteScalar<string>(sql, new {Gebruiker_id, UsernUpdate});
-            return username;
+            connection.Execute(sql, new {Gebruiker_id, UsernUpdate});
+            return 0;
         }
 
-        return "used";
+        return 2;
     }
     
-    public string UpdatePassword(int Gebruiker_id, string UsernUpdate, string OldPassword)
+    public string UpdatePassword(int Gebruiker_id, string UsernUpdate)
     {
-        if(!checkPassword2(Gebruiker_id, OldPassword))
-        {
-            return "succes";
-        }
-        else
-        {
-            string sql = @"UPDATE gebruiker SET wachtwoord = @UsernUpdate WHERE gebruiker_id = @Gebruiker_id";
+        string sql = @"UPDATE gebruiker SET wachtwoord = @UsernUpdate WHERE gebruiker_id = @Gebruiker_id";
             using var connection = GetConnection();
-            string password = connection.ExecuteScalar<string>(sql, new {Gebruiker_id, UsernUpdate});
-            return password;
-        }
-        
+            connection.Execute(sql, new {Gebruiker_id, UsernUpdate});
+            return "Succes";
     }
     
-    public bool checkPassword2(int Gebruiker_id, string Password)
-    {
-        string sql = "SELECT COUNT(gebruiker_id) FROM gebruiker WHERE wachtwoord = @Password AND gebruiker_id = @Gebruiker_id";
-
-        using var connection = GetConnection();
-        bool amount = connection.ExecuteScalar<bool>(sql, new {Gebruiker_id, Password});
-        return amount;
-    }
-    
-    public bool checkUsername2(string Username)
-    {
-        string sql = "SELECT COUNT(gebruiker_id) FROM gebruiker WHERE gebruikers_naam = @Username";
-            
-        using var connection = GetConnection();
-        bool amount = connection.ExecuteScalar<bool>(sql, new{Username});
-        return amount;
-    }
 }
