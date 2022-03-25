@@ -67,6 +67,30 @@ public class GebruikerRepository
         var gebruiker = connection.Query<Gebruiker>(sql, new {Gebruiker_id});
         return gebruiker;
     }
+    public IEnumerable<Gebruiker> GetAllUser(int limiter,string search, int perpage)
+        {
+            string sql = @"SELECT * FROM gebruiker 
+            WHERE (functie = 'a' OR functie = 'u')
+            AND gebruikers_naam LIKE @search
+            ORDER BY functie ASC 
+            LIMIT @limiter, @perpage"; 
+            
+            using var connection = GetConnection();
+            
+            search = "%" + search + "%";
+            var gebruiker = connection.Query<Gebruiker>(sql, new {limiter, search, perpage});
+            return gebruiker;
+        }
+    public int GetCount(string search)
+    {
+        string sql = @"SELECT COUNT(gebruiker_id) FROM gebruiker
+        WHERE (functie = 'a' OR functie = 'u')
+        AND gebruikers_naam LIKE @search";
+
+        using var connection = GetConnection();
+        int amount = connection.ExecuteScalar<int>(sql, new{search});
+        return amount;
+    }
     
     public string UpdateEmail(int Gebruiker_id, string EmailUpd)
     {
@@ -105,6 +129,24 @@ public class GebruikerRepository
         
     }
     
+    public void UpdateFunctie(int gebruikerid, string newfunctie)
+    {
+        if(checkFunctie(gebruikerid, newfunctie))
+        {
+            
+        }
+        else
+        {
+            //Hier kan je de velden van een stripboek aanpassen.
+        string sql = @" UPDATE gebruiker 
+                SET functie = @newfunctie
+                WHERE gebruiker_id = @gebruikerid;";
+            
+        using var connection = GetConnection();
+        connection.Query<Gebruiker>(sql, new{gebruikerid, newfunctie});
+        }
+    }
+    
     public bool checkPassword2(int Gebruiker_id, string Password)
     {
         string sql = "SELECT COUNT(gebruiker_id) FROM gebruiker WHERE wachtwoord = @Password AND gebruiker_id = @Gebruiker_id";
@@ -120,6 +162,14 @@ public class GebruikerRepository
             
         using var connection = GetConnection();
         bool amount = connection.ExecuteScalar<bool>(sql, new{Username});
+        return amount;
+    }
+    public bool checkFunctie(int gebruikerid, string newfunctie)
+    {
+        string sql = "SELECT * FROM gebruiker WHERE gebruiker_id = @gebruikerid AND functie = @newfunctie";
+
+        using var connection = GetConnection();
+        bool amount = connection.ExecuteScalar<bool>(sql, new {gebruikerid, newfunctie});
         return amount;
     }
 }

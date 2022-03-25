@@ -8,7 +8,7 @@ public class ButtonNamer
         switch (userrol)
         {
             case "o":
-                return  "/Overzichten/AccountScreenUser";
+                return  "/Overzichten/AccountScreenOwner";
             case "a":
                 return "/Overzichten/AccountScreenUser";
             case "u":
