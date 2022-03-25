@@ -14,6 +14,8 @@ public class MyCollection : PageModel
     public IEnumerable<Rol> Rollen { get; set; }
     public IEnumerable<Bijdrager> Bijdragers { get; set; }
     public SiteSettings settings { get; set; }
+    public string HREF4 { get; set; }
+    public string LINKNAAM4 { get; set; }
 
     public IActionResult OnGet(string action = "")
     {
@@ -22,6 +24,13 @@ public class MyCollection : PageModel
         {
             return RedirectToPage("/Login/Loginscreen");
         }
+        string userrol =
+            new GebruikerRepository().GetUserRol(
+                Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
+        
+        ButtonNamer namer = new ButtonNamer();
+        HREF4 = namer.Button4Href(userrol);
+        LINKNAAM4 = namer.Button4Name(userrol);
         
         //Maakt nieuw settings object aan om te gebruiken voor de methodes.
         settings = new SiteSettings();

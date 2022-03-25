@@ -8,7 +8,7 @@ using ProjectWebDev.Pages.Databasestuff.Repository;
 
 namespace ProjectWebDev.Pages.Overzichten;
 
-public class OvervieMyBook : PageModel
+public class OverviewMyBook : PageModel
 {
     [BindProperty] public BoekData BoekData { get; set; }
     public IEnumerable<Stripboek> stripboeken { get; set; }
@@ -20,7 +20,7 @@ public class OvervieMyBook : PageModel
     {
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in == null)
-            return RedirectToPage("/Login/Loginscreen");
+            return RedirectToPage("/Login/LoginScreen");
         
         //Verwijderd residu cookies.
         Response.Cookies.Delete("stripid");

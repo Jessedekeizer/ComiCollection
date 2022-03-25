@@ -1,48 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using AngleSharp.Text;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
+using ProjectWebDev.Helpers;
 using ProjectWebDev.Pages.Databasestuff.Models;
 using ProjectWebDev.Pages.Databasestuff.Repository;
-using System.Linq;
-using Newtonsoft.Json;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using ProjectWebDev.Helpers;
-
 
 namespace ProjectWebDev.Pages.Overzichten;
 
-public class UltimateCollection : PageModel
+public class AccountScreenOwner : PageModel
 {
-    public IEnumerable<Stripboek> Stripboeken { get; set; }
-    public IEnumerable<Rol> Rollen { get; set; }
-    public IEnumerable<Bijdrager> Bijdragers { get; set; }
-    public KleurenSchema Kleuren { get; set; }
+    public string Mail { get; set; }
+    
+    public string Gebruiker_ID;
+    public string Wachtwoord { get; set; }
+    public string Gebruikersnaam { get; set; }
+    public IEnumerable<Gebruiker> Gebruikers { get; set; }
+    public IEnumerable<Gebruiker> GebruikersLijst { get; set; }
     public SiteSettings settings { get; set; }
     public string HREF3 { get; set; }
-    public string HREF4 { get; set; }
+    public string HREF4{ get; set; }
     public string LINKNAAM3 { get; set; }
     public string LINKNAAM4 { get; set; }
-
-    public IActionResult OnGet(string action = "")
+    
+    public IActionResult OnGet(string warning, string warning2, string action = "")
     {
-        Kleuren = new KleurenSchema();
+        
+        
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in == null)
-            return RedirectToPage("/Login/Loginscreen");
+           return RedirectToPage("/Login/Loginscreen");
         string userrol =
             new GebruikerRepository().GetUserRol(
                 Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
-        if (userrol == "u")
-            return RedirectToPage("/Overzichten/UltimateCollectionUser");
+        if (userrol != "o")
+            return RedirectToPage("/Overzichten/HomeScreen");
+        
+        Wachtwoord = warning;
+        Gebruikersnaam = warning2;
+        Gebruikers = new GebruikerRepository().GetUser(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         ButtonNamer namer = new ButtonNamer();
         HREF3 = namer.Button3Href(userrol);
-        HREF4 = namer.Button4Href(userrol);
         LINKNAAM3 = namer.Button3Name(userrol);
+        HREF4 = namer.Button4Href(userrol);
         LINKNAAM4 = namer.Button4Name(userrol);
         
-        
-        
-        //Maakt nieuw settings object aan om te gebruiken voor de methodes.
         settings = new SiteSettings();
         string json;
         //Roept de settings string op voor gebruik.
@@ -66,17 +68,8 @@ public class UltimateCollection : PageModel
         {
             settings = JsonConvert.DeserializeObject<SiteSettings>(settingsStr);
         }
-
-        //Als orderitem leeg is, sorteerd hij in de database automatish op Titel
-        if (settings.orderitem == "")
-        {
-            settings.orderitem = "Titel";
-        }
-
-        //Haalt op hoeveel stripboeken er zijn op een bepaalde search waarde.
-        //Als er 21 boeken zijn en je wilt per pagina 10 laten zien, doet hij 21 boeken / per pagina aantal,
-        //hier komt 2 uit en daarna + 1 om een extra pagina voor rest waarde.
-        settings.Totalpage = ((new StripboekRepository().GetCount(settings.searchitem) / settings.perpage) + 1);
+        
+        settings.Totalpage = (((new GebruikerRepository().GetCount(settings.searchitem) / settings.perpage) + 1));
 
 
         //Kijkt welke actie je uit voert, welke knop je drukt en gaat vervolgens naar die pagina.
@@ -100,21 +93,14 @@ public class UltimateCollection : PageModel
                 break;
         }
 
-        // Hier worden de Ienumerables 'Stripboeken', 'Rollen' en 'Bijdragers' gegenereerd. Die van Stripboeken is afhankelijk van
-        // welke pagina je hebt en waar je op gefiltert / gesearcht hebt.
-        Stripboeken = new StripboekRepository().CollectionGet((settings.page * settings.perpage - settings.perpage),
-            settings.searchitem, settings.orderitem, settings.direction, settings.perpage);
-        Rollen = new RolRepository().Get();
-        Bijdragers = new BijdragerRepository().Get();
-        Kleuren = new KleurenSchema();
-
-        //Zet de settingsobject weer om in json (soort string) code.
         json = JsonConvert.SerializeObject(settings);
         Response.Cookies.Append("settings", json.ToString());
+        
+        GebruikersLijst = new GebruikerRepository().GetAllUser((settings.page * settings.perpage - settings.perpage),settings.searchitem,settings.perpage);
+        Gebruiker_ID = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         return Page();
     }
-
-
+    
     public IActionResult OnPostSearch([FromForm] string search)
     {
         //Vraagt de settings cookie hier op.
@@ -142,60 +128,18 @@ public class UltimateCollection : PageModel
 
         return RedirectToPage();
     }
-
-    public IActionResult OnPostOrder([FromForm] string order)
+    
+    public IActionResult OnPostPromote([FromForm] int gebruikerid,[FromForm] string functie)
     {
-        //Vraagt de settings cookie hier op.
-        settings = new SiteSettings();
-        string json;
-        string settingsStr = Request.Cookies["settings"];
-        settings = JsonConvert.DeserializeObject<SiteSettings>(settingsStr);
-
-        //Kijkt waar hij op moet orderen, als dat niks (b.v.b. als je de cookie hebt gedelete) dan ordert hij op titel.
-        if (order == null)
-        {
-            settings.orderitem = "Titel";
-        }
-        else
-        {
-            settings.orderitem = order;
-        }
-
-        //Reset de pagina nummer weer op 1.
-        settings.page = 1;
-
-        //Update de settings cookie hier.
-        json = JsonConvert.SerializeObject(settings);
-        Response.Cookies.Append("settings", json.ToString());
-
+ 
+        new GebruikerRepository().UpdateFunctie(gebruikerid,functie);
         return RedirectToPage();
     }
     
-    public IActionResult OnPostDirection([FromForm] string direction)
+    public IActionResult OnPostDemote([FromForm] int gebruikerid,[FromForm] string functie)
     {
-        //Vraagt de settings cookie hier op.
-        settings = new SiteSettings();
-        string json;
-        string settingsStr = Request.Cookies["settings"];
-        settings = JsonConvert.DeserializeObject<SiteSettings>(settingsStr);
 
-        //Kijkt waar hij op moet orderen, als dat niks (b.v.b. als je de cookie hebt gedelete) dan ordert hij op titel.
-        if (direction == null)
-        {
-            settings.direction = "DESC";
-        }
-        else
-        {
-            settings.direction = direction;
-        }
-
-        //Reset de pagina nummer weer op 1.
-        settings.page = 1;
-
-        //Update de settings cookie hier.
-        json = JsonConvert.SerializeObject(settings);
-        Response.Cookies.Append("settings", json.ToString());
-
+        new GebruikerRepository().UpdateFunctie(gebruikerid,functie);
         return RedirectToPage();
     }
     
@@ -226,7 +170,7 @@ public class UltimateCollection : PageModel
 
         return RedirectToPage();
     }
-
+    
     public IActionResult OnPostDelete()
     {
         //Verwijdert hier de settings cookie.
@@ -235,20 +179,30 @@ public class UltimateCollection : PageModel
         return RedirectToPage();
     }
 
-    public IActionResult OnPostUpdate([FromForm] int Strip_id)
+    public IActionResult OnPostLogout()
     {
-        //Wanneer je op update klikt, geeft hij strip_id mee en word je geredirect naar Updatebook.
-        //Je neemt de Strip_id mee om bij UpdateBook te vertellen welke boek je nou updaten wilt.
-        return RedirectToPage("/Overzichten/UpdateBook", new {strip_id = Strip_id});
+        HttpContext.Session.Remove(SessionConstant.Gebruiker_ID);
+        return RedirectToPage("/Login/LoginScreen");
     }
 
-    public IActionResult OnPostAddScreen()
+    public IActionResult OnPostUpdateMail([FromForm] string EmailUpd)
     {
-        return RedirectToPage("/Overzichten/AddBook");
-    }
-    public IActionResult OnPostGelezen([FromForm] int Strip_id, [FromForm] string trueorfalse)
-    {
-        new StripboekRepository().UpdateRead(Strip_id, Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)) ,trueorfalse);
+        Mail = new GebruikerRepository().UpdateEmail(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), EmailUpd);
+
         return RedirectToPage();
+    }
+    
+    public IActionResult OnPostUpdateUsern([FromForm] string UsernUpdate)
+    {
+        Gebruikersnaam = new GebruikerRepository().UpdateUsername(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), UsernUpdate );
+
+        return RedirectToPage(new{warning = Gebruikersnaam});
+    }
+    
+    public IActionResult OnPostUpdatePassw([FromForm] string PasswordUpd, [FromForm] string PasswordCurrent)
+    {
+        Wachtwoord = new GebruikerRepository().UpdatePassword(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), PasswordUpd, PasswordCurrent);
+
+        return RedirectToPage(new{warning = Wachtwoord});
     }
 }
