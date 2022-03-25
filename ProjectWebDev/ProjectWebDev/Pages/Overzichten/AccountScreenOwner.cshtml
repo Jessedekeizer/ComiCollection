@@ -189,7 +189,7 @@
             <div class="container" style="margin-bottom: 25px">
                 <div class="row">
                     <form method="post" asp-page-handler="UpdateUsern">
-                        @if (Model.Wachtwoord == "used")
+                        @if (Model.Warning == 2)
                         {
                             <h3 id="warning" style="color: red">Username already in use</h3>
                         }
@@ -206,7 +206,7 @@
                 <div class="row">
                     <form method="post" asp-page-handler="UpdatePassw">
                         <div class="row">
-                            @if (Model.Wachtwoord == "succes")
+                            @if (Model.Warning == 1)
                             {
                                 <h3 id="warning" style="color: red">Current password is incorrect</h3>
                             }

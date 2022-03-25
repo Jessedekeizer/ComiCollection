@@ -1,4 +1,5 @@
 ﻿using AngleSharp.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -10,11 +11,8 @@ namespace ProjectWebDev.Pages.Overzichten;
 
 public class AccountScreenOwner : PageModel
 {
-    public string Mail { get; set; }
-    
     public string Gebruiker_ID;
-    public string Wachtwoord { get; set; }
-    public string Gebruikersnaam { get; set; }
+    public int Warning { get; set; }
     public IEnumerable<Gebruiker> Gebruikers { get; set; }
     public IEnumerable<Gebruiker> GebruikersLijst { get; set; }
     public SiteSettings settings { get; set; }
@@ -23,7 +21,7 @@ public class AccountScreenOwner : PageModel
     public string LINKNAAM3 { get; set; }
     public string LINKNAAM4 { get; set; }
     
-    public IActionResult OnGet(string warning, string warning2, string action = "")
+    public IActionResult OnGet(int warning, string action = "")
     {
         
         
@@ -36,8 +34,7 @@ public class AccountScreenOwner : PageModel
         if (userrol != "o")
             return RedirectToPage("/Overzichten/HomeScreen");
         
-        Wachtwoord = warning;
-        Gebruikersnaam = warning2;
+        Warning = warning;
         Gebruikers = new GebruikerRepository().GetUser(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         ButtonNamer namer = new ButtonNamer();
         HREF3 = namer.Button3Href(userrol);
@@ -187,22 +184,40 @@ public class AccountScreenOwner : PageModel
 
     public IActionResult OnPostUpdateMail([FromForm] string EmailUpd)
     {
-        Mail = new GebruikerRepository().UpdateEmail(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), EmailUpd);
+        new GebruikerRepository().UpdateEmail(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), EmailUpd);
 
         return RedirectToPage();
     }
     
     public IActionResult OnPostUpdateUsern([FromForm] string UsernUpdate)
     {
-        Gebruikersnaam = new GebruikerRepository().UpdateUsername(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), UsernUpdate );
+        Warning = new GebruikerRepository().UpdateUsername(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), UsernUpdate );
 
-        return RedirectToPage(new{warning = Gebruikersnaam});
+        return RedirectToPage(new{warning = Warning});
     }
     
     public IActionResult OnPostUpdatePassw([FromForm] string PasswordUpd, [FromForm] string PasswordCurrent)
     {
-        Wachtwoord = new GebruikerRepository().UpdatePassword(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), PasswordUpd, PasswordCurrent);
-
-        return RedirectToPage(new{warning = Wachtwoord});
+        GebruikerRepository gebruiker = new GebruikerRepository();
+        var hashedPassword = gebruiker.GetPassword(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
+        
+        var passwordVerificationResult = new PasswordHasher<object?>().VerifyHashedPassword(null, hashedPassword, PasswordCurrent);
+        switch (passwordVerificationResult)
+        {
+            case PasswordVerificationResult.Failed:
+                Warning = 1;
+                break;
+    
+            case PasswordVerificationResult.Success:
+                hashedPassword = new PasswordHasher<object?>().HashPassword(null, PasswordUpd);
+                gebruiker.UpdatePassword(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), hashedPassword);
+                break;
+            case PasswordVerificationResult.SuccessRehashNeeded:
+                hashedPassword = new PasswordHasher<object?>().HashPassword(null, PasswordUpd);
+                gebruiker.UpdatePassword(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), hashedPassword);
+                break;
+        }
+        
+        return RedirectToPage(new{warning = Warning});
     }
 }
