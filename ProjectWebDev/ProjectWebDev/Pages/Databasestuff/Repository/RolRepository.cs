@@ -50,7 +50,7 @@ public class RolRepository
                 INSERT INTO rol(bijdrager_id, strip_id, rol) 
                 VALUES ((SELECT bijdrager_id
                     FROM bijdrager WHERE bijdrager_id = LAST_INSERT_ID()),
-                        (SELECT MAX(strip_id) fFROM stripboek), @Rol)";
+                        (SELECT MAX(strip_id) FROM stripboek), @Rol)";
         using var connection = GetConnection();
         connection.Query<Bijdrager>(sql, new{Rol});
     }
