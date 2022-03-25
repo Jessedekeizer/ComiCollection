@@ -17,8 +17,11 @@ public class AccountScreenUser : PageModel
     
     public string Gebruiker_ID;
     
+    public KleurenSchema Kleuren { get; set; }
+    
     public IActionResult OnGet(string warning, string warning2)
     {
+        Kleuren = new KleurenSchema();
         Wachtwoord = warning;
         Gebruikersnaam = warning2;
         
@@ -55,5 +58,23 @@ public class AccountScreenUser : PageModel
         Wachtwoord = new GebruikerRepository().UpdatePassword(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), PasswordUpd, PasswordCurrent);
 
         return RedirectToPage(new{warning = Wachtwoord});
+    }
+    public IActionResult OnPostDark()
+    {
+        Kleuren = new KleurenSchema();
+
+        return Page();
+    }
+    public IActionResult OnPostWhite()
+    {
+        
+        
+        return Page(); 
+    }
+    public IActionResult OnPostNormal()
+    {
+         
+        
+        return Page();
     }
 }

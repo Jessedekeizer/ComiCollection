@@ -7,10 +7,12 @@ namespace ProjectWebDev.Pages.Overzichten;
 
 public class AddBook : PageModel
 {
+    public KleurenSchema Kleuren { get; set; }
     [BindProperty] public BoekData BoekData { get; set; }
 
     public void OnGet()
     {
+        Kleuren = new KleurenSchema();
     }
 
     //Voegt alle waarden van de onpost in de 3 queries om ze toetevoegen in het database.

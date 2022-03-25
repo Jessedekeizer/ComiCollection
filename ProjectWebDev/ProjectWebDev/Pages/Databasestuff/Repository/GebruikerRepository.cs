@@ -99,7 +99,7 @@ public class GebruikerRepository
     
     public string UpdatePassword(int Gebruiker_id, string UsernUpdate, string OldPassword)
     {
-        if(checkPassword2(Gebruiker_id, OldPassword))
+        if(!checkPassword2(Gebruiker_id, OldPassword))
         {
             return "succes";
         }
@@ -110,8 +110,6 @@ public class GebruikerRepository
             string password = connection.ExecuteScalar<string>(sql, new {Gebruiker_id, UsernUpdate});
             return password;
         }
-        
-            
         
     }
     

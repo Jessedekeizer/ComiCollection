@@ -30,6 +30,8 @@ public class UltimateCollection : PageModel
                 Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         if (userrol == "u")
             return RedirectToPage("/Overzichten/UltimateCollectionUser");
+
+        
         
         
         //Maakt nieuw settings object aan om te gebruiken voor de methodes.
@@ -96,6 +98,7 @@ public class UltimateCollection : PageModel
             settings.searchitem, settings.orderitem, settings.direction, settings.perpage);
         Rollen = new RolRepository().Get();
         Bijdragers = new BijdragerRepository().Get();
+        Kleuren = new KleurenSchema();
 
         //Zet de settingsobject weer om in json (soort string) code.
         json = JsonConvert.SerializeObject(settings);

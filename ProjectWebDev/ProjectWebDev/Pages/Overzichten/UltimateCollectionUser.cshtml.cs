@@ -13,6 +13,7 @@ public class UltimateCollectionUser : PageModel
     public IEnumerable<Rol> Rollen { get; set; }
     public IEnumerable<Bijdrager> Bijdragers { get; set; }
     public SiteSettings settings { get; set; }
+    public KleurenSchema Kleuren { get; set; }
     public string HREF4 { get; set; }
     public string LINKNAAM4 { get; set; }
 
@@ -38,6 +39,8 @@ public class UltimateCollectionUser : PageModel
             HREF4 = "/Login/LoginScreen";
             LINKNAAM4 = "Login";
         }
+        
+        
         
         //Maakt nieuw settings object aan om te gebruiken voor de methodes.
         settings = new SiteSettings();
@@ -103,6 +106,7 @@ public class UltimateCollectionUser : PageModel
             settings.searchitem, settings.orderitem, settings.direction, settings.perpage);
         Rollen = new RolRepository().Get();
         Bijdragers = new BijdragerRepository().Get();
+        Kleuren = new KleurenSchema();
 
         //Zet de settingsobject weer om in json (soort string) code.
         json = JsonConvert.SerializeObject(settings);
