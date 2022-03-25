@@ -15,17 +15,32 @@ public class AccountScreenUser : PageModel
     public int Warning { get; set; }
     public string Gebruikersnaam { get; set; }
     public IEnumerable<Gebruiker> Gebruikers { get; set; }
-
+    
+    public string Gebruiker_ID;
+    public string HREF3 { get; set; }
+    public string HREF4{ get; set; }
+    public string LINKNAAM3 { get; set; }
+    public string LINKNAAM4 { get; set; }
+    
     public KleurenSchema Kleuren { get; set; }
     
     public IActionResult OnGet(int warning)
     {
+        string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
+        if (Logged_in == null)
+            return RedirectToPage("/Login/Loginscreen");
+        string userrol =
+            new GebruikerRepository().GetUserRol(
+                Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
+        
+        ButtonNamer namer = new ButtonNamer();
+        HREF3 = namer.Button3Href(userrol);
+        LINKNAAM3 = namer.Button3Name(userrol);
+        HREF4 = namer.Button4Href(userrol);
+        LINKNAAM4 = namer.Button4Name(userrol);
         Kleuren = new KleurenSchema();
         Warning = warning;
 
-        string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
-        if (Logged_in == null)
-           return RedirectToPage("/Login/Loginscreen");
         Gebruikers = new GebruikerRepository().GetUser(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         return Page();
     }

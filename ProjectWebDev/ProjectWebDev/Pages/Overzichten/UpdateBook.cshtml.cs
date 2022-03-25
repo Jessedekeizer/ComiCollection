@@ -17,8 +17,11 @@ public class UpdateBook : PageModel
     public string idStr { get; set; }
     public IEnumerable<Bijdrager> Tekenaars { get; set; }
 
+    public KleurenSchema Kleuren { get; set; }
     public void OnGet([FromQuery] int strip_id)
     {
+        Kleuren = new KleurenSchema();
+        
         //Verwijderd residu cookies.
         Response.Cookies.Delete("stripid");
 

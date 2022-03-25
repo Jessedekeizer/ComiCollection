@@ -18,6 +18,10 @@ public class UltimateCollection : PageModel
     public IEnumerable<Bijdrager> Bijdragers { get; set; }
     public KleurenSchema Kleuren { get; set; }
     public SiteSettings settings { get; set; }
+    public string HREF3 { get; set; }
+    public string HREF4 { get; set; }
+    public string LINKNAAM3 { get; set; }
+    public string LINKNAAM4 { get; set; }
 
     public IActionResult OnGet(string action = "")
     {
@@ -30,7 +34,11 @@ public class UltimateCollection : PageModel
                 Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         if (userrol == "u")
             return RedirectToPage("/Overzichten/UltimateCollectionUser");
-
+        ButtonNamer namer = new ButtonNamer();
+        HREF3 = namer.Button3Href(userrol);
+        HREF4 = namer.Button4Href(userrol);
+        LINKNAAM3 = namer.Button3Name(userrol);
+        LINKNAAM4 = namer.Button4Name(userrol);
         
         
         

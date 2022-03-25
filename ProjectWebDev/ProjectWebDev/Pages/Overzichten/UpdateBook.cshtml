@@ -57,7 +57,7 @@
 <div class="container-fluid position-absolute" id="Cont">
 
     <div class="row" id="row">
-        <div class="col-6" style="background-color: white" id="Row1">
+        <div class="col-6" style="background-color: @Model.Kleuren.Background" id="Row1">
             <form method="post" asp-page-handler="UpdateBook">
                 <div class="col d-flex justify-content-center" id="listbox" style="margin-top: 35px; margin-right: 32px">
                     <ul style="list-style-type:none">
@@ -117,12 +117,12 @@
                     
                 </div>
                 <div class="row d-flex justify-content-center">
-                    <button id="UpdateBook" type="submit" style="background-color: #730fc3; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Update Book</button>
+                    <button id="UpdateBook" type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Update Book</button>
                 </div>
             </form>
         </div>
 
-        <div class="col-6 d-flex" style="background-color: #92E6D0" id="Row2">
+        <div class="col-6 d-flex" style="background-color: @Model.Kleuren.Achtergrond" id="Row2">
 
             @if (Model.Auteurs != null)
             {
@@ -146,7 +146,7 @@
                                         <input type="text" placeholder="Wiki-link" id="inputList" name="TekeWikiLink" maxlength="128" value="@bijdrager.Wikilink" required style="text-align: center"/>
                                     </li>
                                     <div class="row d-flex justify-content-center">
-                                        <button type="submit" style="background-color: #730fc3; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Update Tekenaar</button>
+                                        <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Update Tekenaar</button>
                                     </div>
                                 </form>
                             </ul>
@@ -198,7 +198,7 @@
         <div class="row d-flex justify-content-center">
             <form asp-page-handler="Delete" method="post">
                 <input type="hidden" name="Strip_id" value="@stripboek.Strip_id"/>
-                <button id="RemoveBook" style="background-color: #730fc3; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Remove Book</button>
+                <button id="RemoveBook" style="background-color: @Model.Kleuren.active; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Remove Book</button>
             </form>
         </div>
     }

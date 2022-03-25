@@ -16,8 +16,12 @@ public class OverviewMyBook : PageModel
     public IEnumerable<Bijdrager> Auteurs { get; set; }
     public IEnumerable<Bijdrager> Tekenaars { get; set; }
     
+    public KleurenSchema Kleuren { get; set; }
+    
     public IActionResult OnGet([FromQuery] int strip_id)
     {
+        Kleuren = new KleurenSchema();
+        
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in == null)
             return RedirectToPage("/Login/LoginScreen");
