@@ -87,6 +87,7 @@ public class GebruikerRepository
         AND gebruikers_naam LIKE @search";
 
         using var connection = GetConnection();
+        search = "%" + search + "%";
         int amount = connection.ExecuteScalar<int>(sql, new{search});
         return amount;
     }

@@ -11,15 +11,16 @@ public class AddBook : PageModel
     public KleurenSchema Kleuren { get; set; }
     [BindProperty] public BoekData BoekData { get; set; }
 
-    public void OnGet()
+    public IActionResult OnGet()
     {
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in == null)
         {
-            RedirectToPage("/Login/Loginscreen");
+           return RedirectToPage("/Login/Loginscreen");
         }
         
         Kleuren = new KleurenSchema();
+        return Page();
     }
 
     //Voegt alle waarden van de onpost in de 3 queries om ze toetevoegen in het database.
