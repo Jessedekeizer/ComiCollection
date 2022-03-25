@@ -8,6 +8,7 @@ namespace ProjectWebDev.Pages.Overzichten;
 
 public class HomeScreen : PageModel
 {
+    public KleurenSchema Kleuren { get; set; }
     public IEnumerable<Stripboek> Top10 { get; set; }
 
     public string HREF3 { get; set; }
@@ -16,6 +17,8 @@ public class HomeScreen : PageModel
     public string LINKNAAM4 { get; set; }
     public void OnGet()
     {
+        Kleuren = new KleurenSchema();
+        
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in != null)
         {

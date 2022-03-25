@@ -1,5 +1,5 @@
 @page
-@model ProjectWebDev.Pages.Overzichten.UpdateBook
+@model ProjectWebDev.Pages.Overzichten.OverviewBook
 
 @{
     Layout = null;
@@ -56,7 +56,7 @@
 <div class="container-fluid position-absolute" id="Cont">
 
     <div class="row" id="row">
-        <div class="col-6" style="background-color: white" id="Row1">
+        <div class="col-6" style="background-color: @Model.Kleuren.Background" id="Row1">
             <div class="col d-flex justify-content-center" id="listbox" style="margin-top: 35px; margin-right: 32px">
                 <ul style="list-style-type:none">
 
@@ -86,7 +86,7 @@
             </div>
         </div>
 
-        <div class="col-6 d-flex" style="background-color: #92E6D0" id="Row2">
+        <div class="col-6 d-flex" style="background-color: @Model.Kleuren.Achtergrond" id="Row2">
 
             @if (Model.Auteurs != null)
             {

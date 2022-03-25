@@ -1,3 +1,4 @@
+using Dapper;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,8 @@ namespace ProjectWebDev.Pages.Overzichten;
 
 public class OverviewBook : PageModel
 {
-    [BindProperty] public BoekData BoekData { get; set; }
+    [BindProperty] 
+    public BoekData BoekData { get; set; }
     public IEnumerable<Stripboek> stripboeken { get; set; }
     public IEnumerable<Rol> Rols { get; set; }
     public IEnumerable<Bijdrager> Auteurs { get; set; }
@@ -18,8 +20,12 @@ public class OverviewBook : PageModel
     public string idStr { get; set; }
     public IEnumerable<Bijdrager> Tekenaars { get; set; }
 
+    public KleurenSchema Kleuren { get; set; }
+    
     public void OnGet([FromQuery] int strip_id)
     {
+        
+        
         //Verwijderd residu cookies.
         Response.Cookies.Delete("stripid");
 
@@ -40,6 +46,8 @@ public class OverviewBook : PageModel
 
         //Hier worden alle tekenaars van het boek opgevraagt en die stopt hij in een IEnumerable
         Tekenaars = new BijdragerRepository().GetTekenaars(strip_id);
+        
+        Kleuren = new KleurenSchema();
     }
     
 

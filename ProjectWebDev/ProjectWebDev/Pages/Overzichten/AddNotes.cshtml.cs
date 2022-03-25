@@ -9,11 +9,14 @@ namespace ProjectWebDev.Pages.Overzichten;
 
 public class AddNotes : PageModel
 {
+    public KleurenSchema Kleuren { get; set; }
     public string Notes { get; set; }
     
     public void OnGet([FromQuery] int strip_id)
     {
         int gebruiker_id = Convert.ToInt32(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID));
+
+        Kleuren = new KleurenSchema();
         
         Notes = new BezitRepository().GetNotes(strip_id, gebruiker_id);
     }

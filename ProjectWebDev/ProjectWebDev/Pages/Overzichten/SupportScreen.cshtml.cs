@@ -12,8 +12,12 @@ public class SupportScreen : PageModel
     public string HREF4{ get; set; }
     public string LINKNAAM3 { get; set; }
     public string LINKNAAM4 { get; set; }
+    
+    public KleurenSchema Kleuren { get; set; }
     public void OnGet()
     {
+        Kleuren = new KleurenSchema();
+        
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in != null)
         {

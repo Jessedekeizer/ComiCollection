@@ -14,9 +14,13 @@ public class MyCollection : PageModel
     public IEnumerable<Rol> Rollen { get; set; }
     public IEnumerable<Bijdrager> Bijdragers { get; set; }
     public SiteSettings settings { get; set; }
+    
+    public KleurenSchema Kleuren { get; set; }
 
     public IActionResult OnGet(string action = "")
     {
+        Kleuren = new KleurenSchema();
+        
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in == null)
         {

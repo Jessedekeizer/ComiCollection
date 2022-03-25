@@ -61,67 +61,67 @@
         <form asp-page-handler="Search" method="post">
             <td>Zoek hier: </td>
             <input type="text" id="search" name="search" class="form-control form-control-sm"/>
-            <button id="search" name="Search" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 5px">Zoeken</button>
+            <button id="search" name="Search" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 5px">Zoeken</button>
         </form>
         Sorteer op:
         <form asp-page-handler="Order" method="post">
             <input type="hidden" name="order" value="@SearchConstant.Search_reeks"/>
-            <button id="order" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Reeks</button>
+            <button id="order" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Reeks</button>
         </form>
         <form asp-page-handler="Order" method="post">
             <input type="hidden" name="order" value="auteur"/>
-            <button id="order" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Auteurs</button>
+            <button id="order" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Auteurs</button>
         </form>
         <form asp-page-handler="Order" method="post">
             <input type="hidden" name="order" value="@SearchConstant.Search_uitgeverij"/>
-            <button id="order" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Uitgeverijs</button>
+            <button id="order" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Uitgeverijs</button>
         </form>
         <form asp-page-handler="Order" method="post">
             <input type="hidden" name="order" value="@SearchConstant.Search_blzs"/>
-            <button id="order" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Blzs</button>
+            <button id="order" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Blzs</button>
         </form>
         <form asp-page-handler="Order" method="post">
             <input type="hidden" name="order" value="@SearchConstant.Search_rating"/>
-            <button id="order" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Rating</button>
+            <button id="order" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Rating</button>
         </form>
         @if (@Model.settings.direction == "ASC")
         {
             <form asp-page-handler="Direction" method="post">
                 <input type="hidden" name="Direction" value="DESC"/>
-                <button id="Direction" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px">Dalend</button>
+                <button id="Direction" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px">Dalend</button>
             </form>
         }
         else
         {
             <form asp-page-handler="Direction" method="post">
                 <input type="hidden" name="Direction" value="ASC"/>
-                <button id="Direction" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px">Stijgend</button>
+                <button id="Direction" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px">Stijgend</button>
             </form>
         }
         Items per pagina:
         <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
                 <input type="hidden" name="Perpage" value="@PPConstant.PP_1"/>
-                <button id="Perpage" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_1</button>
+                <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_1</button>
             </form>
             <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
                 <input type="hidden" name="Perpage" value="@PPConstant.PP_2"/>
-                <button id="Perpage" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_2</button>
+                <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_2</button>
             </form>
             <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
                 <input type="hidden" name="Perpage" value="@PPConstant.PP_3"/>
-                <button id="Perpage" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; width: 100px; height: 30px">@PPConstant.PP_3</button>
+                <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px">@PPConstant.PP_3</button>
             </form>
         <form asp-page-handler="Delete" method="post">
-            <button id="Delete" name="Delete Filter" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 3px">Delete Filter</button>
+            <button id="Delete" name="Delete Filter" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 3px">Delete Filter</button>
         </form>
         <div>
             <h4>Boek suggereren:</h4>
             <form asp-page-handler="AddScreen" method="post">
-                <button style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 150px; height: 30px; margin-top: 3px">Suggest book</button>
+                <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 150px; height: 30px; margin-top: 3px">Suggest book</button>
             </form>
         </div>
     </div>
-    <div class="container col-10" style="margin: 0; padding: 0;" id="Table">
+    <div class="container col-10" style="margin: 0; padding: 0; background-color: @Model.Kleuren.Background" id="Table">
         <div class="col">
             <table class="table table-bordered">
                 <thead>
