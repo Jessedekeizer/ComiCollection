@@ -34,8 +34,8 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav  nav-pills nav-fill">
                 <li class="nav-item">
-                    <a class="nav-link active" id="navbg" href="/Overzichten/UltimateCollection">
-                        <text style="color: white">Ultimate Collection</text>
+                    <a class="nav-link" id="navbg" href="/Overzichten/UltimateCollection">
+                        <text style="color: @Model.Kleuren.Background">Ultimate Collection</text>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -60,10 +60,10 @@
 
 <div class="container-fluid" id="Container" style="">
     <div class="row" id="Rij" style="height: calc(100vh - 76px)">
-        <div class="col-6" style="background-color: white">
+        <div class="col-6" style="background-color: @Model.Kleuren.Background">
             <h7 style="margin-left: 10px; margin-right: 10px">Welkom @Model.Gebruikersnaam bij comic-collection, waar al je dromen waar komen.</h7>
         </div>
-        <div class="col-6" style="background-color: #92E6D0; border-left: 2px solid #56A28E;">
+        <div class="col-6" style="background-color: @Model.Kleuren.Achtergrond; border-left: 2px solid #56A28E;">
             <h2 class="d-flex justify-content-center" style="margin-top: 10px">Account informatie</h2>
 
             <table class="table table-bordered">
@@ -93,13 +93,13 @@
                             <h3 id="warning" style="color: red">Username already in use</h3>
                         }
                         <h7>Change Username to:</h7><input type="text" placeholder="new Username" name="UsernUpdate"/>
-                        <button type="submit" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Username</button>
+                        <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Username</button>
                     </form>
                 </div>
                 <div class="row">
                     <form method="post" asp-page-handler="UpdateMail">
                         <h7>Change Email to:</h7><input type="text" placeholder="new Email" name="EmailUpd"/>
-                        <button type="submit" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Email</button>
+                        <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Email</button>
                     </form>
                 </div>
                 <div class="row">
@@ -109,17 +109,30 @@
                             {
                                 <h3 id="warning" style="color: red">Current password is incorrect</h3>
                             }
-                            <h7>Current Password:</h7><input type="text" placeholder="current Password" name="PasswordCurrent" style="width: 250px"/>
+                            <h7>Current Password:</h7><input type="password" placeholder="current Password" name="PasswordCurrent" style="width: 250px"/>
                         </div>
-                        <h7>Change Password to:</h7><input type="text" placeholder="new Password" name="PasswordUpd"/>
-                        <button type="submit" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Password</button>
+                        <h7>Change Password to:</h7><input type="password" placeholder="new Password" name="PasswordUpd"/>
+                        <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Password</button>
                     </form>
                 </div>
             </div>
 
             <form method="post" asp-page-handler="Logout">
-                <button type="submit" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px" name="Logout">Logout</button>
+                <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px" name="Logout">Logout</button>
             </form>
+
+            <div class="row" style="margin-top: 25px; margin-left: 10px">
+                <h6 style="margin-left: 10px; margin-bottom: 10px">Kleuren thema:</h6>
+                <form method="post" asp-page-handler="Dark">
+                    <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px" id="Dark" name="Dark">Dark mode</button>
+                </form>
+                <form method="post" asp-page-handler="White" style="margin-top: 3px">
+                    <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px" id="White" name="White">White mode</button>
+                </form>
+                <form method="post" asp-page-handler="Normal" style="margin-top: 3px">
+                    <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px" id="Normal" name="Normal">Normal mode</button>
+                </form>
+            </div>
 
         </div>
     </div>

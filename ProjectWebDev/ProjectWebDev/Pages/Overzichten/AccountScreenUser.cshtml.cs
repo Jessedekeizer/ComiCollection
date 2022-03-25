@@ -21,6 +21,8 @@ public class AccountScreenUser : PageModel
     public string LINKNAAM3 { get; set; }
     public string LINKNAAM4 { get; set; }
     
+    public KleurenSchema Kleuren { get; set; }
+    
     public IActionResult OnGet(string warning, string warning2)
     {
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
@@ -35,6 +37,7 @@ public class AccountScreenUser : PageModel
         LINKNAAM3 = namer.Button3Name(userrol);
         HREF4 = namer.Button4Href(userrol);
         LINKNAAM4 = namer.Button4Name(userrol);
+        Kleuren = new KleurenSchema();
         Wachtwoord = warning;
         Gebruikersnaam = warning2;
         Gebruikers = new GebruikerRepository().GetUser(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
@@ -68,5 +71,23 @@ public class AccountScreenUser : PageModel
         Wachtwoord = new GebruikerRepository().UpdatePassword(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)), PasswordUpd, PasswordCurrent);
 
         return RedirectToPage(new{warning = Wachtwoord});
+    }
+    public IActionResult OnPostDark()
+    {
+        Kleuren = new KleurenSchema();
+
+        return Page();
+    }
+    public IActionResult OnPostWhite()
+    {
+        
+        
+        return Page(); 
+    }
+    public IActionResult OnPostNormal()
+    {
+         
+        
+        return Page();
     }
 }
