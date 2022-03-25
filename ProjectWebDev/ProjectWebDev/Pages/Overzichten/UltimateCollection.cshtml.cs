@@ -21,6 +21,7 @@ public class UltimateCollection : PageModel
 
     public IActionResult OnGet(string action = "")
     {
+        Kleuren = new KleurenSchema();
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in == null)
             return RedirectToPage("/Login/Loginscreen");

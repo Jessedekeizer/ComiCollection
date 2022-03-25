@@ -1,4 +1,5 @@
 @page
+@using ProjectWebDev.Pages.Databasestuff.Models
 @model ProjectWebDev.Pages.Overzichten.UpdateBook
 
 @{
@@ -99,8 +100,15 @@
                                     <span class="invalid-feedback" asp-validation-for="BoekData.Uitgeverij"></span>
                                 </div>
                             </li>
+                            <div class="form-check">
+                                <input class="form-check-input" asp-for="BoekData.Nsfw" type="checkbox" value="true" id="flexCheckDefault" checked="@stripboek.Nsfw">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    NSFW
+                                </label>
+                            </div>
                         }
                     </ul>
+                    
                 </div>
                 <div class="row d-flex justify-content-center">
                     <button id="UpdateBook" type="submit" style="background-color: #730fc3; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Update Book</button>

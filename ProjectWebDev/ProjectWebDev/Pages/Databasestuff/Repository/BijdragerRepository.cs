@@ -70,4 +70,5 @@ public class BijdragerRepository
         var rols = connection.Query<Bijdrager>(sql, new { strip_id });
         return rols;
     }
+    
 }

@@ -59,4 +59,69 @@ public class GebruikerRepository
         string amount = connection.ExecuteScalar<string>(sql, new {Gebruiker_id});
         return amount;
     }
+
+    public IEnumerable<Gebruiker> GetUser(int Gebruiker_id)
+    {
+        string sql = @"SELECT * FROM gebruiker WHERE gebruiker_id = @Gebruiker_id";
+        using var connection = GetConnection();
+        var gebruiker = connection.Query<Gebruiker>(sql, new {Gebruiker_id});
+        return gebruiker;
+    }
+    
+    public string UpdateEmail(int Gebruiker_id, string EmailUpd)
+    {
+        string sql = @"UPDATE gebruiker SET email = @EmailUpd WHERE gebruiker_id = @Gebruiker_id";
+        using var connection = GetConnection();
+        string email = connection.ExecuteScalar<string>(sql, new {Gebruiker_id, EmailUpd});
+        return email;
+    }
+    
+    public string UpdateUsername(int Gebruiker_id, string UsernUpdate)
+    {
+        if (!checkUsername2(UsernUpdate))
+        {
+            string sql = @"UPDATE gebruiker SET gebruikers_naam = @UsernUpdate WHERE gebruiker_id = @Gebruiker_id";
+            using var connection = GetConnection();
+            string username = connection.ExecuteScalar<string>(sql, new {Gebruiker_id, UsernUpdate});
+            return username;
+        }
+
+        return "used";
+    }
+    
+    public string UpdatePassword(int Gebruiker_id, string UsernUpdate, string OldPassword)
+    {
+        if(checkPassword2(Gebruiker_id, OldPassword))
+        {
+            return "succes";
+        }
+        else
+        {
+            string sql = @"UPDATE gebruiker SET wachtwoord = @UsernUpdate WHERE gebruiker_id = @Gebruiker_id";
+            using var connection = GetConnection();
+            string password = connection.ExecuteScalar<string>(sql, new {Gebruiker_id, UsernUpdate});
+            return password;
+        }
+        
+            
+        
+    }
+    
+    public bool checkPassword2(int Gebruiker_id, string Password)
+    {
+        string sql = "SELECT COUNT(gebruiker_id) FROM gebruiker WHERE wachtwoord = @Password AND gebruiker_id = @Gebruiker_id";
+
+        using var connection = GetConnection();
+        bool amount = connection.ExecuteScalar<bool>(sql, new {Gebruiker_id, Password});
+        return amount;
+    }
+    
+    public bool checkUsername2(string Username)
+    {
+        string sql = "SELECT COUNT(gebruiker_id) FROM gebruiker WHERE gebruikers_naam = @Username";
+            
+        using var connection = GetConnection();
+        bool amount = connection.ExecuteScalar<bool>(sql, new{Username});
+        return amount;
+    }
 }
