@@ -42,10 +42,10 @@ public class StripboekRepository
         return stripboek;
     }
 
-    public IEnumerable<Stripboek> Get()
+    public IEnumerable<Stripboek> GetNonVisible()
     {
         //Haalt alles op van Stripboek
-        string sql = "SELECT * FROM Stripboek ORDER BY Titel";
+        string sql = "SELECT strip_id, titel FROM stripboek WHERE isvisible = false ORDER BY strip_id";
 
         using var connection = GetConnection();
         var stripboek = connection.Query<Stripboek>(sql);

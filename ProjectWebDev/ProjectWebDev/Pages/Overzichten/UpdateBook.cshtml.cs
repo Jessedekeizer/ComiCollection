@@ -2,6 +2,7 @@ using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Authentication.OAuth.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProjectWebDev.Helpers;
 using ProjectWebDev.Pages.Databasestuff.Models;
 using ProjectWebDev.Pages.Databasestuff.Repository;
 
@@ -16,10 +17,34 @@ public class UpdateBook : PageModel
     public int Strip_id { get; set; } = 0;
     public string idStr { get; set; }
     public IEnumerable<Bijdrager> Tekenaars { get; set; }
-
+    
+    public string HREF3 { get; set; }
+    public string HREF4 { get; set; }
+    public string LINKNAAM3 { get; set; }
+    public string LINKNAAM4 { get; set; }
     public KleurenSchema Kleuren { get; set; }
-    public void OnGet([FromQuery] int strip_id)
+    public IActionResult OnGet([FromQuery] int strip_id)
     {
+        string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
+        if (Logged_in != null)
+        {
+            string userrol =
+                new GebruikerRepository().GetUserRol(
+                    Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
+            if (userrol == "u")
+            {
+                return RedirectToPage("/Overzicht/MyCollection");
+            }
+            
+            ButtonNamer namer = new ButtonNamer();
+            HREF3 = namer.Button3Href(userrol);
+            LINKNAAM3 = namer.Button3Name(userrol);
+            HREF4 = namer.Button4Href(userrol);
+            LINKNAAM4 = namer.Button4Name(userrol);
+        }
+        else
+            return RedirectToPage("/Login/LoginScreen");
+        
         Kleuren = new KleurenSchema();
         
         //Verwijderd residu cookies.
@@ -42,6 +67,8 @@ public class UpdateBook : PageModel
 
         //Hier worden alle tekenaars van het boek opgevraagt en die stopt hij in een IEnumerable
         Tekenaars = new BijdragerRepository().GetTekenaars(strip_id);
+
+        return Page();
     }
 
     //Hier worden de waardes van de ingevoerde form mee gegeven aan de boek.update.
