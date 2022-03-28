@@ -57,11 +57,10 @@ public class StripboekRepository
             case "ASC": Directionresult = "ASC"; break;
             default: Directionresult = "DESC"; break;
         }
-
         switch (NSFW)
         {
-            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false) "; break;
-            default: NSFWresult = "AND (nsfw = false) "; break;
+            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false)"; break;
+            default: NSFWresult = "AND (nsfw = false)"; break;
         }
         
         string sql = @"SELECT S.*, AVG(Bt.score) as Ratings
@@ -91,8 +90,15 @@ public class StripboekRepository
 
     public int GetCount(string search, string NSFW)
     {
+        string NSFWresult;
+        switch (NSFW)
+        {
+            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false) "; break;
+            default: NSFWresult = "AND (nsfw = false) "; break;
+        }
         string sql = @"SELECT COUNT(Strip_id) FROM Stripboek
-        WHERE Isvisible = false AND
+        WHERE Isvisible = false " + NSFWresult +
+                     @" AND
         (isbn LIKE @search
         OR titel LIKE @search
         OR uitgavejaar LIKE @search
@@ -166,6 +172,7 @@ public class StripboekRepository
     {
         string Orderresult;
         string Directionresult;
+        string NSFWresult;
         switch (order)
         {
             case SearchConstant.Search_blzs: Orderresult = "ORDER BY S.blzs"; break;
@@ -179,6 +186,11 @@ public class StripboekRepository
             case "ASC": Directionresult = "ASC"; break;
             default: Directionresult = "DESC"; break;
         }
+        switch (NSFW)
+        {
+            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false)"; break;
+            default: NSFWresult = "AND (nsfw = false)"; break;
+        }
         
         string sql = @"SELECT S.*, AVG(Bt.score) as Ratings, Bz.gelezen
         FROM stripboek S
@@ -190,8 +202,8 @@ public class StripboekRepository
         LEFT JOIN Gebruiker Gb ON Gb.gebruiker_id = Bz.gebruiker_id
 
         WHERE Isvisible = false AND 
-              R.rol = 'auteur' AND 
-              Gb.gebruiker_id = @gebruikerid AND
+              R.rol = 'auteur' " + NSFWresult + 
+                     @" AND Gb.gebruiker_id = @gebruikerid AND
         (isbn LIKE @search
         OR titel LIKE @search
         OR uitgavejaar LIKE @search
@@ -209,13 +221,20 @@ public class StripboekRepository
     }
     public int GetCountMy(string search, int gebruikerid, string NSFW)
     {
+        string NSFWresult;
+        switch (NSFW)
+        {
+            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false)"; break;
+            default: NSFWresult = "AND (nsfw = false)"; break;
+        }
+        
         string sql = @"SELECT COUNT(S.Strip_id) FROM Stripboek S
     
         INNER JOIN Bezit Bz ON Bz.strip_id = S.strip_id
         INNER JOIN Gebruiker Gb ON Gb.gebruiker_id = Bz.gebruiker_id
 
-        WHERE Isvisible = false AND
-        Gb.gebruiker_id = @gebruikerid AND
+        WHERE Isvisible = false " + NSFWresult +
+                     @" AND Gb.gebruiker_id = @gebruikerid AND
         (isbn LIKE @search
         OR titel LIKE @search
         OR uitgavejaar LIKE @search
