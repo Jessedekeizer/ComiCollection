@@ -35,7 +35,7 @@
             <ul class="navbar-nav  nav-pills nav-fill">
                 <li class="nav-item">
                     <a class="nav-link" id="navbg" href="/Overzichten/UltimateCollection">
-                        <text style="color: @Model.Kleuren.Background">Ultimate Collection</text>
+                        <text style="color: white">Ultimate Collection</text>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -116,11 +116,12 @@
                     </form>
                 </div>
                 <div>
-                    <form method="post" asp-page-handler="NFSW">
-                        <input class="form-check-input" name="Nfsw" type="checkbox" value="true" id="flexCheckDefault" checked="@stripboek.Nsfw">
-                                                        <label class="form-check-label" for="flexCheckDefault">
-                                                            NSFW
-                                                        </label>
+                    <form method="post" asp-page-handler="NSFW">
+                        <input class="form-check-input" name="Nsfw" type="checkbox" value="true" id="flexCheckDefault" checked="@Model.NSFW">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            NSFW
+                        </label>
+                        <button type="submit">Pas aan</button>
                     </form>
                 </div>
             </div>

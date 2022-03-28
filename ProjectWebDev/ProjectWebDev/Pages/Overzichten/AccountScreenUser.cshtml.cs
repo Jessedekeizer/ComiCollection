@@ -22,10 +22,13 @@ public class AccountScreenUser : PageModel
     public string LINKNAAM3 { get; set; }
     public string LINKNAAM4 { get; set; }
     
+    public bool NSFW { get; set; }
+    
     public KleurenSchema Kleuren { get; set; }
     
     public IActionResult OnGet(int warning)
     {
+        Kleuren = new KleurenSchema();
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in == null)
             return RedirectToPage("/Login/Loginscreen");
@@ -38,8 +41,10 @@ public class AccountScreenUser : PageModel
         LINKNAAM3 = namer.Button3Name(userrol);
         HREF4 = namer.Button4Href(userrol);
         LINKNAAM4 = namer.Button4Name(userrol);
-        Kleuren = new KleurenSchema();
+        
         Warning = warning;
+
+        NSFW = Request.Cookies["nsfw"].ToBoolean(); 
 
         Gebruikers = new GebruikerRepository().GetUser(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         return Page();
@@ -47,7 +52,15 @@ public class AccountScreenUser : PageModel
 
     public IActionResult OnPostNSFW([FromForm] bool Nsfw)
     {
-        
+        Response.Cookies.Delete("nsfw");
+
+        //Roept de cookies op en maakt dan een nieuwe cookie aan met het strip_id
+
+        Response.Cookies.Append("nsfw", Nsfw.ToString(), new CookieOptions()
+        {
+            Expires = DateTimeOffset.Now.AddDays(30)
+        });
+        return RedirectToPage();
     }
 
     public IActionResult OnPostLogout()
