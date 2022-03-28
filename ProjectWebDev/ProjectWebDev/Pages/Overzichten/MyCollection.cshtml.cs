@@ -31,6 +31,11 @@ public class MyCollection : PageModel
         string userrol =
             new GebruikerRepository().GetUserRol(
                 Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
+
+        if (! (userrol == "u"))
+        {
+            return RedirectToPage("/Overzicht/CheckBook");
+        }
         
         ButtonNamer namer = new ButtonNamer();
         HREF4 = namer.Button4Href(userrol);

@@ -39,13 +39,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="navbg" href="/Overzichten/MyCollection">
-                        <text style="color: white">My Collection</text>
+                    <a class="nav-link" id="navbg" href="@Model.HREF3">
+                        <text style="color: white">@Model.LINKNAAM3</text>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="navbg" href="/Login/LoginScreen">
-                        <text style="color: white">My Account/Login</text>
+                    <a class="nav-link" id="navbg" href="@Model.HREF4">
+                        <text style="color: white">@Model.LINKNAAM4</text>
                     </a>
                 </li>
             </ul>
@@ -104,6 +104,12 @@
                                 <input class="form-check-input" asp-for="BoekData.Nsfw" type="checkbox" value="true" id="flexCheckDefault" checked="@stripboek.Nsfw">
                                 <label class="form-check-label" for="flexCheckDefault">
                                     NSFW
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" asp-for="BoekData.Isvisible" type="checkbox" value="true" id="flexCheckDefault" checked="@stripboek.Isvisible">
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    Voeg toe aan Ultimate Collection
                                 </label>
                             </div>
                         }

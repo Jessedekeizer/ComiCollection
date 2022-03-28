@@ -42,10 +42,10 @@ public class StripboekRepository
         return stripboek;
     }
 
-    public IEnumerable<Stripboek> Get()
+    public IEnumerable<Stripboek> GetNonVisible()
     {
         //Haalt alles op van Stripboek
-        string sql = "SELECT * FROM Stripboek ORDER BY Titel";
+        string sql = "SELECT strip_id, titel FROM stripboek WHERE isvisible = false ORDER BY strip_id";
 
         using var connection = GetConnection();
         var stripboek = connection.Query<Stripboek>(sql);
@@ -125,15 +125,15 @@ public class StripboekRepository
         return amount;
     }
     
-    public void AddBook(String Titel, Int64 ISBN, int Uitgavejaar, int Blzs, string Reeks, string Uitgeverij)
+    public void AddBook(String Titel, Int64 ISBN, int Uitgavejaar, int Blzs, string Reeks, string Uitgeverij, bool Nsfw)
     {
         //Voeg een stripboek toe
         string sql = @"
-                INSERT INTO stripboek (titel, isbn, uitgavejaar, blzs, reeks, uitgeverij) 
-                VALUES (@Titel, @ISBN, @Uitgavejaar, @Blzs, @Reeks, @Uitgeverij)";
+                INSERT INTO stripboek (titel, isbn, uitgavejaar, blzs, reeks, uitgeverij, nsfw) 
+                VALUES (@Titel, @ISBN, @Uitgavejaar, @Blzs, @Reeks, @Uitgeverij, @Nsfw)";
 
         using var connection = GetConnection();
-        connection.Query<Stripboek>(sql, new{Titel, ISBN, Uitgavejaar, Blzs, Reeks,Uitgeverij });
+        connection.Query<Stripboek>(sql, new{Titel, ISBN, Uitgavejaar, Blzs, Reeks,Uitgeverij, Nsfw });
     }
 
     public void Delete(int Strip_id)

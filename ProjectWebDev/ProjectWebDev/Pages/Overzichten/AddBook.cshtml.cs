@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ProjectWebDev.Helpers;
 using ProjectWebDev.Pages.Databasestuff.Models;
 using ProjectWebDev.Pages.Databasestuff.Repository;
 
@@ -10,18 +11,25 @@ public class AddBook : PageModel
     public KleurenSchema Kleuren { get; set; }
     [BindProperty] public BoekData BoekData { get; set; }
 
-    public void OnGet()
+    public IActionResult OnGet()
     {
+        string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
+        if (Logged_in == null)
+        {
+           return RedirectToPage("/Login/Loginscreen");
+        }
+        
         Kleuren = new KleurenSchema();
+        return Page();
     }
 
     //Voegt alle waarden van de onpost in de 3 queries om ze toetevoegen in het database.
-    public void OnPost()
+    public IActionResult OnPost()
     {
         //Voegt alle waarden van een boek en stuurt ze door naar de AddBook methode
         StripboekRepository boek = new StripboekRepository();
         boek.AddBook(BoekData.Titel, BoekData.Isbn, BoekData.Uitgavejaar, BoekData.Blzs, BoekData.Reeks,
-            BoekData.Uitgeverij);
+            BoekData.Uitgeverij, BoekData.Nsfw);
 
 
         BijdragerRepository bijdrager = new BijdragerRepository();
@@ -46,5 +54,7 @@ public class AddBook : PageModel
                 BoekData.TekenWikilink);
             rol.AddRol("tekenaar");
         }
+
+        return RedirectToPage();
     }
 }
