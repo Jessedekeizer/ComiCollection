@@ -26,22 +26,6 @@ public class StripboekRepository
         return stripboek;
     }
 
-    public IEnumerable<Stripboek> GetBySearch(string search)
-    {
-        string sql = @"SELECT * FROM Stripboek
-            WHERE isbn LIKE @search
-               OR titel LIKE @search
-               OR uitgavejaar LIKE @search
-               OR blzs LIKE @search 
-               OR reeks LIKE @search
-               OR uitgeverij LIKE @search";
-
-        using var connection = GetConnection();
-        search = "%" + search + "%";
-        var stripboek = connection.Query<Stripboek>(sql, new {search});
-        return stripboek;
-    }
-
     public IEnumerable<Stripboek> GetNonVisible()
     {
         //Haalt alles op van Stripboek
@@ -95,16 +79,6 @@ public class StripboekRepository
         search = "%" + search + "%";
 
         var stripboek = connection.Query<Stripboek>(sql, new {limiter, search, Orderresult, Directionresult, perpage});
-        return stripboek;
-    }
-
-    public IEnumerable<Stripboek> AdminGet()
-    {
-        //Haalt alle boeken op die niet visible zijn voor normale gebruikers
-        string sql = "SELECT * FROM Stripboek WHERE Isvisible = false ORDER BY Titel";
-
-        using var connection = GetConnection();
-        var stripboek = connection.Query<Stripboek>(sql);
         return stripboek;
     }
 
