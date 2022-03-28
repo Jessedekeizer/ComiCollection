@@ -75,7 +75,7 @@ public class MyCollection : PageModel
         //Haalt op hoeveel stripboeken er zijn op een bepaalde search waarde.
         //Als er 21 boeken zijn en je wilt per pagina 10 laten zien, doet hij 21 boeken / per pagina aantal,
         //hier komt 2 uit en daarna + 1 om een extra pagina voor rest waarde.
-        settings.Totalpage = (((new StripboekRepository().GetCountMy(settings.searchitem, Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)) / settings.perpage) + 1)));
+        settings.Totalpage = ((new StripboekRepository().GetCountMy(settings.searchitem, Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID))) / settings.perpage) + 1);
 
 
         //Kijkt welke actie je uit voert, welke knop je drukt en gaat vervolgens naar die pagina.
