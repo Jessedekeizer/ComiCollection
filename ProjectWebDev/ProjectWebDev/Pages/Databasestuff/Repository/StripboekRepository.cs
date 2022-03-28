@@ -80,7 +80,7 @@ public class StripboekRepository
         INNER JOIN Rol R ON R.strip_id = S.strip_id
         INNER JOIN Bijdrager B ON B.bijdrager_id = R.bijdrager_id
 
-        WHERE Isvisible = false AND 
+        WHERE Isvisible = true AND 
               R.rol = 'auteur' AND
         (isbn LIKE @search
         OR titel LIKE @search
@@ -111,7 +111,7 @@ public class StripboekRepository
     public int GetCount(string search)
     {
         string sql = @"SELECT COUNT(Strip_id) FROM Stripboek
-        WHERE Isvisible = false AND
+        WHERE Isvisible = true AND
         (isbn LIKE @search
         OR titel LIKE @search
         OR uitgavejaar LIKE @search
@@ -208,7 +208,7 @@ public class StripboekRepository
         LEFT JOIN Bezit Bz ON Bz.strip_id = S.strip_id
         LEFT JOIN Gebruiker Gb ON Gb.gebruiker_id = Bz.gebruiker_id
 
-        WHERE Isvisible = false AND 
+        WHERE Isvisible = true AND 
               R.rol = 'auteur' AND 
               Gb.gebruiker_id = @gebruikerid AND
         (isbn LIKE @search

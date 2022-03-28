@@ -45,6 +45,11 @@ public class AccountScreenUser : PageModel
         return Page();
     }
 
+    public IActionResult OnPostNSFW([FromForm] bool Nsfw)
+    {
+        
+    }
+
     public IActionResult OnPostLogout()
     {
         HttpContext.Session.Remove(SessionConstant.Gebruiker_ID);
