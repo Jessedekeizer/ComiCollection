@@ -121,42 +121,25 @@ public class GebruikerRepository
             return "Succes";
         
     }
-    
+
     public void UpdateFunctie(int gebruikerid, string newfunctie)
     {
-        if(checkFunctie(gebruikerid, newfunctie))
+        if (checkFunctie(gebruikerid, newfunctie))
         {
-            
+
         }
         else
         {
             //Hier kan je de velden van een stripboek aanpassen.
-        string sql = @" UPDATE gebruiker 
+            string sql = @" UPDATE gebruiker 
                 SET functie = @newfunctie
                 WHERE gebruiker_id = @gebruikerid;";
-            
-        using var connection = GetConnection();
-        connection.Query<Gebruiker>(sql, new{gebruikerid, newfunctie});
+
+            using var connection = GetConnection();
+            connection.Query<Gebruiker>(sql, new {gebruikerid, newfunctie});
         }
     }
-    
-    public bool checkPassword2(int Gebruiker_id, string Password)
-    {
-        string sql = "SELECT COUNT(gebruiker_id) FROM gebruiker WHERE wachtwoord = @Password AND gebruiker_id = @Gebruiker_id";
 
-        using var connection = GetConnection();
-        bool amount = connection.ExecuteScalar<bool>(sql, new {Gebruiker_id, Password});
-        return amount;
-    }
-    
-    public bool checkUsername2(string Username)
-    {
-        string sql = "SELECT COUNT(gebruiker_id) FROM gebruiker WHERE gebruikers_naam = @Username";
-            
-        using var connection = GetConnection();
-        bool amount = connection.ExecuteScalar<bool>(sql, new{Username});
-        return amount;
-    }
     public bool checkFunctie(int gebruikerid, string newfunctie)
     {
         string sql = "SELECT * FROM gebruiker WHERE gebruiker_id = @gebruikerid AND functie = @newfunctie";

@@ -22,26 +22,7 @@ public class RolRepository
         var rol = connection.Query<Rol>(sql);
         return rol;
     }
-    public IEnumerable<Rol> GetAuteur(int strip_id)
-    {
-        //Haalt auteur op van de strip waar je op klikt
-        string sql = "SELECT bijdrager_id FROM rol WHERE Strip_id = @strip_id AND Rol ='auteur' ";
-            
-        using var connection = GetConnection();
-        var rols = connection.Query<Rol>(sql, new { strip_id });
-        return rols;
-    }
-    
-    public IEnumerable<Rol> GetTekenaar(int strip_id)
-    {
-        //Haalt Tekenaar op van de strip waar je op klikt
-        string sql = "SELECT bijdrager_id FROM rol WHERE Strip_id = @strip_id AND Rol = 'tekenaar' ";
-            
-        using var connection = GetConnection();
-        var rols = connection.Query<Rol>(sql, new { strip_id });
-        return rols;
-    }
-    
+
     public void AddRol(string Rol)
     {
         //Voegt een rol toe aan de database. Bijdrager_id en strip_id pakt hij uit een andere tabel
