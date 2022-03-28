@@ -76,7 +76,7 @@ public class UltimateCollectionUser : PageModel
         //Haalt op hoeveel stripboeken er zijn op een bepaalde search waarde.
         //Als er 21 boeken zijn en je wilt per pagina 10 laten zien, doet hij 21 boeken / per pagina aantal,
         //hier komt 2 uit en daarna + 1 om een extra pagina voor rest waarde.
-        settings.Totalpage = ((new StripboekRepository().GetCount(settings.searchitem) / settings.perpage) + 1);
+        settings.Totalpage = ((new StripboekRepository().GetCount(settings.searchitem, Request.Cookies["nsfw"]) / settings.perpage) + 1);
 
 
         //Kijkt welke actie je uit voert, welke knop je drukt en gaat vervolgens naar die pagina.
@@ -103,7 +103,7 @@ public class UltimateCollectionUser : PageModel
         // Hier worden de Ienumerables 'Stripboeken', 'Rollen' en 'Bijdragers' gegenereerd. Die van Stripboeken is afhankelijk van
         // welke pagina je hebt en waar je op gefiltert / gesearcht hebt.
         Stripboeken = new StripboekRepository().CollectionGet((settings.page * settings.perpage - settings.perpage),
-            settings.searchitem, settings.orderitem, settings.direction, settings.perpage);
+            settings.searchitem, settings.orderitem, settings.direction, settings.perpage, Request.Cookies["nsfw"]);
         Rollen = new RolRepository().Get();
         Bijdragers = new BijdragerRepository().Get();
         Kleuren = new KleurenSchema();
