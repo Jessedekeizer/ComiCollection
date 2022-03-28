@@ -26,22 +26,6 @@ public class StripboekRepository
         return stripboek;
     }
 
-    public IEnumerable<Stripboek> GetBySearch(string search)
-    {
-        string sql = @"SELECT * FROM Stripboek
-            WHERE isbn LIKE @search
-               OR titel LIKE @search
-               OR uitgavejaar LIKE @search
-               OR blzs LIKE @search 
-               OR reeks LIKE @search
-               OR uitgeverij LIKE @search";
-
-        using var connection = GetConnection();
-        search = "%" + search + "%";
-        var stripboek = connection.Query<Stripboek>(sql, new {search});
-        return stripboek;
-    }
-
     public IEnumerable<Stripboek> GetNonVisible()
     {
         //Haalt alles op van Stripboek
@@ -55,10 +39,11 @@ public class StripboekRepository
 
     // S.strip_id, S.isbn, S.titel,S.uitgavejaar, 
     // S.blzs, S.Reeks, S.uitgeverij, AVG(Bt.score) as ratings, S.nsfw, S.isvisible,
-    public IEnumerable<Stripboek> CollectionGet(int limiter, string search, string order, string direction, int perpage)
+    public IEnumerable<Stripboek> CollectionGet(int limiter, string search, string order, string direction, int perpage, string NSFW)
     {
         string Orderresult;
         string Directionresult;
+        string NSFWresult;
         switch (order)
         {
             case SearchConstant.Search_blzs: Orderresult = "ORDER BY S.blzs"; break;
@@ -72,6 +57,11 @@ public class StripboekRepository
             case "ASC": Directionresult = "ASC"; break;
             default: Directionresult = "DESC"; break;
         }
+        switch (NSFW)
+        {
+            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false)"; break;
+            default: NSFWresult = "AND (nsfw = false)"; break;
+        }
         
         string sql = @"SELECT S.*, AVG(Bt.score) as Ratings
         FROM stripboek S
@@ -81,8 +71,8 @@ public class StripboekRepository
         INNER JOIN Bijdrager B ON B.bijdrager_id = R.bijdrager_id
 
         WHERE Isvisible = true AND 
-              R.rol = 'auteur' AND
-        (isbn LIKE @search
+              R.rol = 'auteur' " + NSFWresult +
+        @" AND (isbn LIKE @search
         OR titel LIKE @search
         OR uitgavejaar LIKE @search
         OR blzs LIKE @search 
@@ -98,20 +88,17 @@ public class StripboekRepository
         return stripboek;
     }
 
-    public IEnumerable<Stripboek> AdminGet()
+    public int GetCount(string search, string NSFW)
     {
-        //Haalt alle boeken op die niet visible zijn voor normale gebruikers
-        string sql = "SELECT * FROM Stripboek WHERE Isvisible = false ORDER BY Titel";
-
-        using var connection = GetConnection();
-        var stripboek = connection.Query<Stripboek>(sql);
-        return stripboek;
-    }
-
-    public int GetCount(string search)
-    {
+        string NSFWresult;
+        switch (NSFW)
+        {
+            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false) "; break;
+            default: NSFWresult = "AND (nsfw = false) "; break;
+        }
         string sql = @"SELECT COUNT(Strip_id) FROM Stripboek
-        WHERE Isvisible = true AND
+        WHERE Isvisible = true " + NSFWresult +
+                     @" AND
         (isbn LIKE @search
         OR titel LIKE @search
         OR uitgavejaar LIKE @search
@@ -181,10 +168,11 @@ public class StripboekRepository
         
     }
     
-    public IEnumerable<Stripboek> GetMyCollection(int limiter, string search, string order, string direction, int perpage, int gebruikerid)
+    public IEnumerable<Stripboek> GetMyCollection(int limiter, string search, string order, string direction, int perpage, int gebruikerid, string NSFW)
     {
         string Orderresult;
         string Directionresult;
+        string NSFWresult;
         switch (order)
         {
             case SearchConstant.Search_blzs: Orderresult = "ORDER BY S.blzs"; break;
@@ -198,6 +186,11 @@ public class StripboekRepository
             case "ASC": Directionresult = "ASC"; break;
             default: Directionresult = "DESC"; break;
         }
+        switch (NSFW)
+        {
+            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false)"; break;
+            default: NSFWresult = "AND (nsfw = false)"; break;
+        }
         
         string sql = @"SELECT S.*, AVG(Bt.score) as Ratings, Bz.gelezen
         FROM stripboek S
@@ -209,8 +202,8 @@ public class StripboekRepository
         LEFT JOIN Gebruiker Gb ON Gb.gebruiker_id = Bz.gebruiker_id
 
         WHERE Isvisible = true AND 
-              R.rol = 'auteur' AND 
-              Gb.gebruiker_id = @gebruikerid AND
+              R.rol = 'auteur' " + NSFWresult + 
+                     @" AND Gb.gebruiker_id = @gebruikerid AND
         (isbn LIKE @search
         OR titel LIKE @search
         OR uitgavejaar LIKE @search
@@ -226,15 +219,22 @@ public class StripboekRepository
         var stripboek = connection.Query<Stripboek>(sql, new {limiter, search, Orderresult, Directionresult, perpage, gebruikerid});
         return stripboek;
     }
-    public int GetCountMy(string search, int gebruikerid)
+    public int GetCountMy(string search, int gebruikerid, string NSFW)
     {
+        string NSFWresult;
+        switch (NSFW)
+        {
+            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false)"; break;
+            default: NSFWresult = "AND (nsfw = false)"; break;
+        }
+        
         string sql = @"SELECT COUNT(S.Strip_id) FROM Stripboek S
     
         INNER JOIN Bezit Bz ON Bz.strip_id = S.strip_id
         INNER JOIN Gebruiker Gb ON Gb.gebruiker_id = Bz.gebruiker_id
 
-        WHERE Isvisible = false AND
-        Gb.gebruiker_id = @gebruikerid AND
+        WHERE Isvisible = false " + NSFWresult +
+                     @" AND Gb.gebruiker_id = @gebruikerid AND
         (isbn LIKE @search
         OR titel LIKE @search
         OR uitgavejaar LIKE @search

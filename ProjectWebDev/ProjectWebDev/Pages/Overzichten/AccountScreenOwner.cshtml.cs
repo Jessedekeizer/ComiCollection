@@ -21,9 +21,11 @@ public class AccountScreenOwner : PageModel
     public string LINKNAAM3 { get; set; }
     public string LINKNAAM4 { get; set; }
     
+    public KleurenSchema Kleuren { get; set; }
+    
     public IActionResult OnGet(int warning, string action = "")
     {
-        
+        Kleuren = new KleurenSchema();
         
         string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
         if (Logged_in == null)

@@ -59,12 +59,21 @@ public class BezitRepository
        return notes;
     }
     
-    public string UpdateNotes(int strip_id, int gebruiker_id, string Notes)
+    public int UpdateNotes(int strip_id, int gebruiker_id, string Notes)
     {
         string sql = @"UPDATE Bezit SET notes = @Notes WHERE Strip_id = @strip_id AND gebruiker_id = @gebruiker_id";
 
         using var connection = GetConnection();
-        string notes = connection.ExecuteScalar<string>(sql, new {strip_id, gebruiker_id, Notes});
-        return notes;
+        int added = connection.Execute(sql, new {strip_id, gebruiker_id, Notes});
+        return added;
+    }
+    
+    public void AddNotes(int strip_id, int gebruiker_id, string Notes)
+    {
+        string sql = @"INSERT INTO Bezit(notes, gebruiker_id, strip_id) VALUES (@Notes, @gebruiker_id, @strip_id)";
+
+        using var connection = GetConnection();
+        connection.Query(sql, new {strip_id, gebruiker_id, Notes});
+        
     }
 }
