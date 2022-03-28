@@ -23,7 +23,6 @@ public class AccountScreenOwner : PageModel
     
     public KleurenSchema Kleuren { get; set; }
     
-    public IActionResult OnGet(string warning, string warning2, string action = "")
     public IActionResult OnGet(int warning, string action = "")
     {
         Kleuren = new KleurenSchema();
