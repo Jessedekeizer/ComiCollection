@@ -52,7 +52,7 @@ public class RegisterScreen : PageModel
         if (chkEmail)
             return RedirectToPage(new {warning = 2});
         
-        return RedirectToPage();
+        return RedirectToPage("/Login/LoginScreen");
     }
 }
 
