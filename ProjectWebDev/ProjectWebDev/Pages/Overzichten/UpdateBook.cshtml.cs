@@ -33,7 +33,7 @@ public class UpdateBook : PageModel
                     Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
             if (userrol == "u")
             {
-                return RedirectToPage("/Overzicht/MyCollection");
+                return RedirectToPage("/Overzichten/MyCollection");
             }
             
             ButtonNamer namer = new ButtonNamer();
