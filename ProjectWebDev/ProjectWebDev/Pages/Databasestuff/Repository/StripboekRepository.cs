@@ -59,8 +59,8 @@ public class StripboekRepository
         }
         switch (NSFW)
         {
-            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false)"; break;
-            default: NSFWresult = "AND (nsfw = false)"; break;
+            case "True": NSFWresult = ""; break;
+            default: NSFWresult = "AND nsfw = false"; break;
         }
         
         string sql = @"SELECT S.*, AVG(Bt.score) as Ratings
@@ -93,8 +93,8 @@ public class StripboekRepository
         string NSFWresult;
         switch (NSFW)
         {
-            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false) "; break;
-            default: NSFWresult = "AND (nsfw = false) "; break;
+            case "True": NSFWresult = ""; break;
+            default: NSFWresult = "AND nsfw = false"; break;
         }
         string sql = @"SELECT COUNT(Strip_id) FROM Stripboek
         WHERE Isvisible = true " + NSFWresult +
@@ -188,8 +188,8 @@ public class StripboekRepository
         }
         switch (NSFW)
         {
-            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false)"; break;
-            default: NSFWresult = "AND (nsfw = false)"; break;
+            case "True": NSFWresult = ""; break;
+            default: NSFWresult = "AND nsfw = false"; break;
         }
         
         string sql = @"SELECT S.*, AVG(Bt.score) as Ratings, Bz.gelezen
@@ -224,8 +224,8 @@ public class StripboekRepository
         string NSFWresult;
         switch (NSFW)
         {
-            case "true": NSFWresult = "AND (nsfw = true AND nsfw = false)"; break;
-            default: NSFWresult = "AND (nsfw = false)"; break;
+            case "True": NSFWresult = ""; break;
+            default: NSFWresult = "AND nsfw = false"; break;
         }
         
         string sql = @"SELECT COUNT(S.Strip_id) FROM Stripboek S
