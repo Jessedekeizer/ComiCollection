@@ -14,13 +14,19 @@ public class AddNotes : PageModel
     
     public int Strip_id { get; set; }
     
-    public void OnGet([FromQuery] int strip_id)
+    public IActionResult OnGet([FromQuery] int strip_id)
     {
+        string Logged_in = HttpContext.Session.GetString(SessionConstant.Gebruiker_ID);
+        if (Logged_in == null)
+        {
+            return RedirectToPage("/Login/Loginscreen");
+        }
         int gebruiker_id = Convert.ToInt32(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID));
         Strip_id = strip_id;
         Kleuren = new KleurenSchema();
         
         Notes = new BezitRepository().GetNotes(strip_id, gebruiker_id);
+        return Page();
     }
 
     public IActionResult OnPostToevoegen([FromForm] int strip_id, string Notities)
