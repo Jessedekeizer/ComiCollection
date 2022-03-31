@@ -20,6 +20,7 @@ public class AccountScreenOwner : PageModel
     public string HREF4{ get; set; }
     public string LINKNAAM3 { get; set; }
     public string LINKNAAM4 { get; set; }
+    public bool NSFW { get; set; }
     
     public KleurenSchema Kleuren { get; set; }
     
@@ -35,7 +36,7 @@ public class AccountScreenOwner : PageModel
                 Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         if (userrol != "o")
             return RedirectToPage("/Overzichten/HomeScreen");
-        
+        NSFW = Request.Cookies["nsfw"].ToBoolean();
         Warning = warning;
         Gebruikers = new GebruikerRepository().GetUser(Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
         ButtonNamer namer = new ButtonNamer();
@@ -198,6 +199,18 @@ public class AccountScreenOwner : PageModel
         return RedirectToPage(new{warning = Warning});
     }
     
+    public IActionResult OnPostNSFW([FromForm] bool Nsfw)
+    {
+        Response.Cookies.Delete("nsfw");
+
+        //Roept de cookies op en maakt dan een nieuwe cookie aan met het strip_id
+
+        Response.Cookies.Append("nsfw", Nsfw.ToString(), new CookieOptions()
+        {
+            Expires = DateTimeOffset.Now.AddDays(30)
+        });
+        return RedirectToPage();
+    }
     public IActionResult OnPostUpdatePassw([FromForm] string PasswordUpd, [FromForm] string PasswordCurrent)
     {
         GebruikerRepository gebruiker = new GebruikerRepository();
