@@ -9,7 +9,7 @@ namespace ProjectWebDev.Pages.Databasestuff
     {   
         public IDbConnection Connect()
         {
-            string connectionString = "Server=127.0.0.1;Port=3306;Database=Webdev;Uid=root;Pwd=jorislops-2022;";
+            string connectionString = "Server=127.0.0.1;Port=3306;Database=Webdev;Uid=root;Pwd=Cactus123!1;";
             return new MySqlConnection(connectionString);
         }
     }
