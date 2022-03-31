@@ -16,7 +16,6 @@ public class AccountScreenUser : PageModel
     public string Gebruikersnaam { get; set; }
     public IEnumerable<Gebruiker> Gebruikers { get; set; }
     
-    public string Gebruiker_ID;
     public string HREF3 { get; set; }
     public string HREF4{ get; set; }
     public string LINKNAAM3 { get; set; }
@@ -106,23 +105,5 @@ public class AccountScreenUser : PageModel
         }
         
         return RedirectToPage(new{warning = Warning});
-    }
-    public IActionResult OnPostDark()
-    {
-        Kleuren = new KleurenSchema();
-
-        return Page();
-    }
-    public IActionResult OnPostWhite()
-    {
-        
-        
-        return Page(); 
-    }
-    public IActionResult OnPostNormal()
-    {
-         
-        
-        return Page();
     }
 }

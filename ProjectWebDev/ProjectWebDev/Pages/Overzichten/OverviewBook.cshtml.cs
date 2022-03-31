@@ -59,13 +59,5 @@ public class OverviewBook : PageModel
         Kleuren = new KleurenSchema();
     }
     
-
-    //Methode om een boek te verwijderen uit Collection.
-    public IActionResult OnPostRemove([FromForm] int Strip_id)
-    {
-        
-        //Als je op de delete knop drukt, wordt Alles van het stripboek verwijdert.
-        new BezitRepository().DeleteFromMyCollection(Strip_id, Int32.Parse(HttpContext.Session.GetString(SessionConstant.Gebruiker_ID)));
-        return RedirectToPage("/Overzichten/MyCollection");
-    }
+    
 }

@@ -257,4 +257,10 @@ public class MyCollection : PageModel
         //Wanneer je op de titel klikt, ga je naar de Overview pagina van het boek.
         return RedirectToPage("/Overzichten/OverViewMyBook", new {strip_id = Strip_id});
     }
+
+    public IActionResult OnPostAddRate([FromForm] int Strip_id)
+    {
+        //Wanneer je op de titel klikt, ga je naar de Overview pagina van het boek.
+        return RedirectToPage("/Overzichten/AddRate", new {strip_id = Strip_id});
+    }
 }

@@ -121,7 +121,7 @@
                         <label class="form-check-label" for="flexCheckDefault">
                             NSFW
                         </label>
-                        <button type="submit">Pas aan</button>
+                        <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px">Pas aan</button>
                     </form>
                 </div>
             </div>
@@ -129,20 +129,6 @@
             <form method="post" asp-page-handler="Logout">
                 <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px" name="Logout">Logout</button>
             </form>
-
-            <div class="row" style="margin-top: 25px; margin-left: 10px">
-                <h6 style="margin-left: 10px; margin-bottom: 10px">Kleuren thema:</h6>
-                <form method="post" asp-page-handler="Dark">
-                    <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px" id="Dark" name="Dark">Dark mode</button>
-                </form>
-                <form method="post" asp-page-handler="White" style="margin-top: 3px">
-                    <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px" id="White" name="White">White mode</button>
-                </form>
-                <form method="post" asp-page-handler="Normal" style="margin-top: 3px">
-                    <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px" id="Normal" name="Normal">Normal mode</button>
-                </form>
-            </div>
-
         </div>
     </div>
 </div>

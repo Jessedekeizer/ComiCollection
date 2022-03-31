@@ -248,6 +248,15 @@ public class StripboekRepository
         return amount;
     }
 
+    public string Titel(int strip_id)
+    {
+        string sql = @"SELECT titel FROM Stripboek WHERE Strip_id = @strip_id;";
+            
+        using var connection = GetConnection();
+        string titel = connection.ExecuteScalar<string>(sql, new{strip_id});
+        return titel;
+    }
+
     public void UpdateRead(int strip_id, int gebruikerid, string trueorfalse)
     {
         int tf;

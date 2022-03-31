@@ -198,17 +198,14 @@
                                 </button>
                             </form>
                         </td>
-                        @if (stripboek.Ratings == 0)
-                        {
-                            <td>N/A</td>
-                        }
-                        else
-                        {
-                            {
-                                sDisplayValue = @stripboek.Ratings.ToString("0.00");
-                            }
-                            <td> @sDisplayValue </td>
-                        }
+                        <td>
+                            <form method="post" asp-page-handler="AddRate">
+                                <input type="hidden" name="Strip_id" value="@stripboek.Strip_id"/>
+                                <button id="trashButton" style=" background-color: mediumpurple; border: none;">
+                                    <i class='fa fa-plus-circle'></i>
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     {
                         Itemnum = Itemnum + 1;

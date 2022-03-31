@@ -52,7 +52,7 @@ public class LoginScreen : PageModel
         }
         
         var hashedPassword = gebruiker.GetPassword(Gebruiker_id);
-        
+        //vergelijkt opgegeven password met het hashed password 
         var passwordVerificationResult = new PasswordHasher<object?>().VerifyHashedPassword(null, hashedPassword, LoginCredential.Password);
         switch (passwordVerificationResult)
         {
@@ -63,13 +63,12 @@ public class LoginScreen : PageModel
                 
                 HttpContext.Session.SetString(SessionConstant.Gebruiker_ID, Gebruiker_id.ToString());
                 return RedirectToPage(new RedirectUser().Ultimate_collection(Gebruiker_id));
-
+            //Als de hash niet veilig is, maar je kan wel inloggen
             case PasswordVerificationResult.SuccessRehashNeeded:
                 HttpContext.Session.SetString(SessionConstant.Gebruiker_ID, Gebruiker_id.ToString());
                 return RedirectToPage(new RedirectUser().Ultimate_collection(Gebruiker_id));
-
         }
-
+        //als geen van de cases wordt uitgevoerd
         return RedirectToPage(new {warning = 2});
     }
     

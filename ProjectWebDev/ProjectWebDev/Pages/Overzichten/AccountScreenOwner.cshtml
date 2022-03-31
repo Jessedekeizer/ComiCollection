@@ -62,178 +62,172 @@
 </nav>
 
 <div class="container-fluid" id="Container" style="">
-    <div class="row" id="Rij" style="height: calc(100vh - 76px)">
-        <div class="col-6" style="background-color: @Model.Kleuren.Background">
-            <div class="row">
-                <div class="container col-2" style="background-color: @Model.Kleuren.Achtergrond">
-                    <h4>Filters:</h4>
-                    <form asp-page-handler="Search" method="post">
-                        <td>Zoek hier: </td>
-                        <input type="text" id="search" name="search" class="form-control form-control-sm"/>
-                        <button id="search" name="Search" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 5px">Zoeken</button>
-                    </form>
-                    Gebruikers per pagina:
-                    <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
-                        <input type="hidden" name="Perpage" value="@PPConstant.PP_1"/>
-                        <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_1</button>
-                    </form>
-                    <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
-                        <input type="hidden" name="Perpage" value="@PPConstant.PP_2"/>
-                        <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_2</button>
-                    </form>
-                    <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
-                        <input type="hidden" name="Perpage" value="@PPConstant.PP_3"/>
-                        <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px">@PPConstant.PP_3</button>
-                    </form>
-                    <form asp-page-handler="Delete" method="post">
-                        <button id="Delete" name="Delete Filter" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 3px">Delete Filter</button>
-                    </form>
-                </div>
-                <div class="container col-10" style="margin: 0; padding: 0; background-color: @Model.Kleuren.Background" id="Table">
-                    <div class="col">
-                        <table class="table table-bordered">
-                            <thead>
+<div class="row" id="Rij" style="height: calc(100vh - 76px)">
+    <div class="col-6" style="background-color: @Model.Kleuren.Background">
+        <div class="row">
+            <div class="container col-2" style="background-color: @Model.Kleuren.Achtergrond">
+                <h4>Filters:</h4>
+                <form asp-page-handler="Search" method="post">
+                    <td>Zoek hier: </td>
+                    <input type="text" id="search" name="search" class="form-control form-control-sm"/>
+                    <button id="search" name="Search" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 5px">Zoeken</button>
+                </form>
+                Gebruikers per pagina:
+                <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
+                    <input type="hidden" name="Perpage" value="@PPConstant.PP_1"/>
+                    <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_1</button>
+                </form>
+                <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
+                    <input type="hidden" name="Perpage" value="@PPConstant.PP_2"/>
+                    <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_2</button>
+                </form>
+                <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
+                    <input type="hidden" name="Perpage" value="@PPConstant.PP_3"/>
+                    <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px">@PPConstant.PP_3</button>
+                </form>
+                <form asp-page-handler="Delete" method="post">
+                    <button id="Delete" name="Delete Filter" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 3px">Delete Filter</button>
+                </form>
+            </div>
+            <div class="container col-10" style="margin: 0; padding: 0; background-color: @Model.Kleuren.Background" id="Table">
+                <div class="col">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="width: 5%">Num</th>
+                            <th style="width: 80%" scope="col-2">Naam</th>
+                            <th style="width: 5%" scope="col-1">Promote</th>
+                            <th style="width: 10%" scope="col-2">Rol</th>
+                            <th style="width: 5%" scope="col-1">Demote</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach (var gebruiker in Model.GebruikersLijst)
+                        {
                             <tr>
-                                <th style="width: 5%">Num</th>
-                                <th style="width: 80%" scope="col-2">Naam</th>
-                                <th style="width: 5%" scope="col-1">Promote</th>
-                                <th style="width: 10%" scope="col-2">Rol</th>
-                                <th style="width: 5%" scope="col-1">Demote</th>
+                                <td>@Itemnum</td>
+                                <td>@gebruiker.Gebruikers_naam</td>
+                                <td>
+                                    <form asp-page-handler="Promote" method="post">
+                                        <input type="hidden" name="gebruikerid" value="@gebruiker.Gebruiker_id"/>
+                                        <input type="hidden" name="functie" value="a"/>
+                                        <button id="functie" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Promote</button>
+                                    </form>
+                                </td>
+                                <td>@gebruiker.Functie</td>
+                                <td>
+
+                                    <form asp-page-handler="Demote" method="post">
+                                        <input type="hidden" name="gebruikerid" value="@gebruiker.Gebruiker_id"/>
+                                        <input type="hidden" name="functie" value="u"/>
+                                        <button id="functie" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Demote</button>
+                                    </form>
+                                </td>
+
                             </tr>
-                            </thead>
-                            <tbody>
-                            @foreach (var gebruiker in Model.GebruikersLijst)
                             {
-                                <tr>
-                                    <td>@Itemnum</td>
-                                    <td>@gebruiker.Gebruikers_naam</td>
-                                    <td>
-                                        <form asp-page-handler="Promote" method="post">
-                                            <input type="hidden" name="gebruikerid" value="@gebruiker.Gebruiker_id"/>
-                                            <input type="hidden" name="functie" value="a"/>
-                                            <button id="functie" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Promote</button>
-                                        </form>
-                                    </td>
-                                    <td>@gebruiker.Functie</td>
-                                    <td>
-
-                                        <form asp-page-handler="Demote" method="post">
-                                            <input type="hidden" name="gebruikerid" value="@gebruiker.Gebruiker_id"/>
-                                            <input type="hidden" name="functie" value="u"/>
-                                            <button id="functie" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-bottom: 3px">Demote</button>
-                                        </form>
-                                    </td>
-
-                                </tr>
-                                {
-                                    Itemnum = Itemnum + 1;
-                                }
+                                Itemnum = Itemnum + 1;
                             }
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col d-flex justify-content-center">
-                        <form method="get">
-                            @if (Model.settings.page - 2 > 0)
-                            {
-                                <button name="action" value="previouspreviousPage" type="submit">
-                                    @(Model.settings.page - 2)
-                                </button>
-                            }
-                            @if (Model.settings.page - 1 > 0)
-                            {
-                                <button name="action" value="previousPage" type="submit">
-                                    @(Model.settings.page - 1)
-                                </button>
-                            }
-                            @(Model.settings.page)
-                            @if (Model.settings.page < @Model.settings.Totalpage)
-                            {
-                                <button name="action" value="nextPage" type="submit">
-                                    @(Model.settings.page + 1)
-                                </button>
-                            }
-                            @if (Model.settings.page < @Model.settings.Totalpage - 1 || Model.settings.page < @Model.settings.Totalpage - 2)
-                            {
-                                <button name="action" value="nextnextPage" type="submit">
-                                    @(Model.settings.page + 2)
-                                </button>
-                            }
-                        </form>
-                    </div>
+                        }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col d-flex justify-content-center">
+                    <form method="get">
+                        @if (Model.settings.page - 2 > 0)
+                        {
+                            <button name="action" value="previouspreviousPage" type="submit">
+                                @(Model.settings.page - 2)
+                            </button>
+                        }
+                        @if (Model.settings.page - 1 > 0)
+                        {
+                            <button name="action" value="previousPage" type="submit">
+                                @(Model.settings.page - 1)
+                            </button>
+                        }
+                        @(Model.settings.page)
+                        @if (Model.settings.page < @Model.settings.Totalpage)
+                        {
+                            <button name="action" value="nextPage" type="submit">
+                                @(Model.settings.page + 1)
+                            </button>
+                        }
+                        @if (Model.settings.page < @Model.settings.Totalpage - 1 || Model.settings.page < @Model.settings.Totalpage - 2)
+                        {
+                            <button name="action" value="nextnextPage" type="submit">
+                                @(Model.settings.page + 2)
+                            </button>
+                        }
+                    </form>
                 </div>
             </div>
         </div>
-        <div class="col-6" style="background-color: #92E6D0; border-left: 2px solid #56A28E;">
-            <h2 class="d-flex justify-content-center" style="margin-top: 10px">Account informatie</h2>
+    </div>
+    <div class="col-6" style="background-color: #92E6D0; border-left: 2px solid #56A28E;">
+        <h2 class="d-flex justify-content-center" style="margin-top: 10px">Account informatie</h2>
 
-            <table class="table table-bordered">
+        <table class="table table-bordered">
 
-                @foreach (var gebruiker in Model.Gebruikers)
-                {
-                    <tr>
-                        <th>Username: </th>
-                        <td>@gebruiker.Gebruikers_naam</td>
-                    </tr>
-                    <tr>
-                        <th>Email: </th>
-                        <td>@gebruiker.Email</td>
-                    </tr>
-                    <tr>
-                        <th>Functie: </th>
-                        <td>@gebruiker.Functie</td>
-                    </tr>
-                }
-            </table>
+            @foreach (var gebruiker in Model.Gebruikers)
+            {
+                <tr>
+                    <th>Username: </th>
+                    <td>@gebruiker.Gebruikers_naam</td>
+                </tr>
+                <tr>
+                    <th>Email: </th>
+                    <td>@gebruiker.Email</td>
+                </tr>
+                <tr>
+                    <th>Functie: </th>
+                    <td>@gebruiker.Functie</td>
+                </tr>
+            }
+        </table>
 
-            <div class="container" style="margin-bottom: 25px">
-                <div class="row">
-                    <form method="post" asp-page-handler="UpdateUsern">
-                        @if (Model.Warning == 2)
-                        {
-                            <h3 id="warning" style="color: red">Username already in use</h3>
-                        }
-                        <h7>Change Username to:</h7><input type="text" placeholder="new Username" name="UsernUpdate"/>
-                        <button type="submit" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Username</button>
-                    </form>
-                </div>
-                <div class="row">
-                    <form method="post" asp-page-handler="UpdateMail">
-                        <h7>Change Email to:</h7><input type="text" placeholder="new Email" name="EmailUpd"/>
-                        <button type="submit" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Email</button>
-                    </form>
-                </div>
-                <div class="row">
-                    <form method="post" asp-page-handler="UpdatePassw">
-                        <div class="row">
-                            @if (Model.Warning == 1)
-                            {
-                                <h3 id="warning" style="color: red">Current password is incorrect</h3>
-                            }
-                            <h7>Current Password:</h7><input type="text" placeholder="current Password" name="PasswordCurrent" style="width: 250px"/>
-                        </div>
-                        <h7>Change Password to:</h7><input type="text" placeholder="new Password" name="PasswordUpd"/>
-                        <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Password</button>
-                    </form>
-                </div>
-            </div>
-
-            <form method="post" asp-page-handler="Logout">
-                <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px" name="Logout">Logout</button>
-            </form>
+        <div class="container" style="margin-bottom: 25px">
             <div class="row">
-                <form method="post" asp-page-handler="Dark">
-                <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px" name="Dark" id="Dark">Dark mode</button>
+                <form method="post" asp-page-handler="UpdateUsern">
+                    @if (Model.Warning == 2)
+                    {
+                        <h3 id="warning" style="color: red">Username already in use</h3>
+                    }
+                    <h7>Change Username to:</h7><input type="text" placeholder="new Username" name="UsernUpdate"/>
+                    <button type="submit" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Username</button>
                 </form>
-                <form method="post" asp-page-handler="White">
-                <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px" name="White" id="White">White mode</button>
+            </div>
+            <div class="row">
+                <form method="post" asp-page-handler="UpdateMail">
+                    <h7>Change Email to:</h7><input type="text" placeholder="new Email" name="EmailUpd"/>
+                    <button type="submit" style="background-color: #730fc3; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Email</button>
                 </form>
-                <form method="post" asp-page-handler="Normal">
-                <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px" name="Normal" id="Normal">Normal mode</button>
+            </div>
+            <div class="row">
+                <form method="post" asp-page-handler="UpdatePassw">
+                    <div class="row">
+                        @if (Model.Warning == 1)
+                        {
+                            <h3 id="warning" style="color: red">Current password is incorrect</h3>
+                        }
+                        <h7>Current Password:</h7><input type="text" placeholder="current Password" name="PasswordCurrent" style="width: 250px"/>
+                    </div>
+                    <h7>Change Password to:</h7><input type="text" placeholder="new Password" name="PasswordUpd"/>
+                    <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px" name="Username">Change Password</button>
+                </form>
+            </div>
+            <div>
+                <form method="post" asp-page-handler="NSFW">
+                    <input class="form-check-input" name="Nsfw" type="checkbox" value="true" id="flexCheckDefault" checked="@Model.NSFW">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        NSFW
+                    </label>
+                    <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px; margin-top: 10px">Pas aan</button>
                 </form>
             </div>
         </div>
     </div>
+</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
