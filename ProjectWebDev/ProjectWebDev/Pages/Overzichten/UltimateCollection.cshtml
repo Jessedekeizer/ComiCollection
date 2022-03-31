@@ -101,17 +101,17 @@
         }
         Items per pagina:
         <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
-                <input type="hidden" name="Perpage" value="@PPConstant.PP_1"/>
-                <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_1</button>
-            </form>
-            <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
-                <input type="hidden" name="Perpage" value="@PPConstant.PP_2"/>
-                <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_2</button>
-            </form>
-            <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
-                <input type="hidden" name="Perpage" value="@PPConstant.PP_3"/>
-                <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px">@PPConstant.PP_3</button>
-            </form>
+            <input type="hidden" name="Perpage" value="@PPConstant.PP_1"/>
+            <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_1</button>
+        </form>
+        <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
+            <input type="hidden" name="Perpage" value="@PPConstant.PP_2"/>
+            <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px; margin-bottom: 3px">@PPConstant.PP_2</button>
+        </form>
+        <form asp-page-handler="Perpage" method="post" style="margin-left: 10px">
+            <input type="hidden" name="Perpage" value="@PPConstant.PP_3"/>
+            <button id="Perpage" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; width: 100px; height: 30px">@PPConstant.PP_3</button>
+        </form>
         <form asp-page-handler="Delete" method="post">
             <button id="Delete" name="Delete Filter" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px; margin-top: 3px">Delete Filter</button>
         </form>
@@ -145,7 +145,14 @@
                         <td>
                             @Itemnum
                         </td>
-                        <td>@stripboek.Titel</td>
+                        <td>
+                            <form asp-page-handler="CheckBook" method="post">
+                                <input type="hidden" name="Strip_id" value="@stripboek.Strip_id"/>
+                                <button id="Checkbutton" style=" background-color: transparent; border: none;">
+                                    @stripboek.Titel
+                                </button>
+                            </form>
+                        </td>
                         <td>@stripboek.Reeks</td>
                         <td>
                             @foreach (var rol in Model.Rollen)
@@ -165,29 +172,29 @@
                         <td>@stripboek.Uitgeverij</td>
                         <td>@stripboek.Blzs</td>
                         @if (@stripboek.gelezen == 1)
-                                                {
-                                                    <td>
-                                                        <form asp-page-handler="Gelezen" method="post" style="margin-left: 10px">
-                                                            <input type="hidden" name="trueorfalse" value="false"/>
-                                                            <input type="hidden" name="strip_id" value="@stripboek.Strip_id"/>
-                                                            <button id="Gelezen">Ja</button>
-                                                        </form>
-                                                    </td>
-                                                }
-                                                else
-                                                {
-                                                    <td>
-                                                        <form asp-page-handler="Gelezen" method="post" style="margin-left: 10px">
-                                                            <input type="hidden" name="trueorfalse" value="true"/>
-                                                            <input type="hidden" name="strip_id" value="@stripboek.Strip_id"/>
-                                                            <button id="Gelezen">Nee</button>
-                                                        </form>
-                                                    </td>
-                                                }
+                        {
+                            <td>
+                                <form asp-page-handler="Gelezen" method="post" style="margin-left: 10px">
+                                    <input type="hidden" name="trueorfalse" value="false"/>
+                                    <input type="hidden" name="strip_id" value="@stripboek.Strip_id"/>
+                                    <button id="Gelezen">Ja</button>
+                                </form>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <form asp-page-handler="Gelezen" method="post" style="margin-left: 10px">
+                                    <input type="hidden" name="trueorfalse" value="true"/>
+                                    <input type="hidden" name="strip_id" value="@stripboek.Strip_id"/>
+                                    <button id="Gelezen">Nee</button>
+                                </form>
+                            </td>
+                        }
                         <td>
                             <form asp-page-handler="Update" method="post">
                                 <input type="hidden" name="Strip_id" value="@stripboek.Strip_id"/>
-                                <button id="trashButton" style=" background-color: mediumpurple; border: none;">    
+                                <button id="trashButton" style=" background-color: mediumpurple; border: none;">
                                     <i class='fa fa-plus-circle'></i>
                                 </button>
                             </form>

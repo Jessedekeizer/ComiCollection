@@ -94,12 +94,13 @@
                     @foreach (var bijdrager in Model.Auteurs)
                     {
                         <div class="row" style="margin-top: 60px">
+                            Auteur:
                             <ul style="list-style-type:none">
                                 <li id="List1" style="border-bottom: none">
                                     <p>@bijdrager.Naam</p>
                                 </li>
                                 <li id="List1" style="border-bottom: none">
-                                    <p>@(bijdrager.Geboortedatum.ToString("yyyy/MM/dd"))</p>
+                                    <p>@(bijdrager.Geboortedatum.ToString("yyyy-MM-dd"))</p>
                                 </li>
                                 <li id="List1" style="border-bottom: none">
                                     <p>@bijdrager.Sexe</p>
@@ -117,12 +118,13 @@
                 @foreach (var bijdrager in Model.Tekenaars)
                 {
                     <div class="row" style="margin-top: 60px">
+                        Tekenaar:
                         <ul style="list-style-type:none">
                             <li id="List1" style="border-bottom: none">
                                 <p>@bijdrager.Naam</p>
                             </li>
                             <li id="List1" style="border-bottom: none">
-                                <p>@bijdrager.Geboortedatum</p>
+                                <p>@(bijdrager.Geboortedatum.ToString("yyyy-MM-dd"))</p>
                             </li>
                             <li id="List1" style="border-bottom: none">
                                 <p>@bijdrager.Sexe</p>

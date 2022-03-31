@@ -114,7 +114,7 @@
                             </div>
                         }
                     </ul>
-                    
+
                 </div>
                 <div class="row d-flex justify-content-center">
                     <button id="UpdateBook" type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Update Book</button>
@@ -131,22 +131,22 @@
                     {
                         <div class="row" style="margin-top: 60px">
                             <ul style="list-style-type:none">
-                                <form method="post" asp-page-handler="UpdateTekenaar">
-                                    <input type="hidden" name="Tekenaar_id" value="@bijdrager.Bijdrager_id"/>
+                                <form method="post" asp-page-handler="UpdateAuteur">
+                                    <input type="hidden" name="Auteur_id" value="@bijdrager.Bijdrager_id"/>
                                     <li id="List1" style="border-bottom: none">
-                                        <input type="text" placeholder="Tekenaar Naam" id="inputList" name="TekenaarNaam" maxlength="128" value="@bijdrager.Naam" required style="text-align: center"/>
+                                        <input type="text" placeholder="Auteur Naam" id="inputList" name="AuteurNaam" maxlength="128" value="@bijdrager.Naam" required style="text-align: center"/>
                                     </li>
                                     <li id="List1" style="border-bottom: none">
-                                        <input type="date" required id="inputList" name="TekenGeboortedatum" value="@(bijdrager.Geboortedatum.ToString("yyyy/MM/dd"))" style="text-align: center"/>
+                                        <input type="date" required id="inputList" name="Geboortedatum" value="@(bijdrager.Geboortedatum.ToString("yyyy-MM-dd"))" style="text-align: center"/>
                                     </li>
                                     <li id="List1" style="border-bottom: none">
-                                        <input type="text" placeholder="Sexe" pattern="[m,v,o]" maxlength="1" id="inputList" oninput="this.value = this.value.replace(/[^mvo]/, '')" name="TekenSexe" value="@bijdrager.Sexe" required style="text-align: center"/>
+                                        <input type="text" placeholder="Sexe" pattern="[m,v,o]" maxlength="1" id="inputList" oninput="this.value = this.value.replace(/[^mvo]/, '')" name="Sexe" value="@bijdrager.Sexe" required style="text-align: center"/>
                                     </li>
                                     <li id="List1">
-                                        <input type="text" placeholder="Wiki-link" id="inputList" name="TekeWikiLink" maxlength="128" value="@bijdrager.Wikilink" required style="text-align: center"/>
+                                        <input type="text" placeholder="Wiki-link" id="inputList" name="WikiLink" maxlength="128" value="@bijdrager.Wikilink" required style="text-align: center"/>
                                     </li>
                                     <div class="row d-flex justify-content-center">
-                                        <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Update Tekenaar</button>
+                                        <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Update Auteur</button>
                                     </div>
                                 </form>
                             </ul>
@@ -160,30 +160,24 @@
                 {
                     <div class="row" style="margin-top: 60px">
                         <ul style="list-style-type:none">
-                            <li id="List1" style="border-bottom: none">
-                                <div class="form-group">
-                                    <input asp-for="BoekData.TekenNaam" type="text" value="@bijdrager.Naam" class="form-control" placeholder="Tekenaar naam" maxlength="128" style="text-align: center"/>
-                                    <span class="invalid-feedback" asp-validation-for="BoekData.TekenNaam"></span>
+                            <form method="post" asp-page-handler="UpdateTekenaar">
+                                <input type="hidden" name="Tekenaar_id" value="@bijdrager.Bijdrager_id"/>
+                                <li id="List1" style="border-bottom: none">
+                                    <input type="text" placeholder="Tekenaar Naam" id="inputList" name="TekenaarNaam" maxlength="128" value="@bijdrager.Naam" required style="text-align: center"/>
+                                </li>
+                                <li id="List1" style="border-bottom: none">
+                                    <input type="date" required id="inputList" name="TekenGeboortedatum" value="@(bijdrager.Geboortedatum.ToString("yyyy-MM-dd"))" style="text-align: center"/>
+                                </li>
+                                <li id="List1" style="border-bottom: none">
+                                    <input type="text" placeholder="Sexe" pattern="[m,v,o]" maxlength="1" id="inputList" oninput="this.value = this.value.replace(/[^mvo]/, '')" name="TekenSexe" value="@bijdrager.Sexe" required style="text-align: center"/>
+                                </li>
+                                <li id="List1">
+                                    <input type="text" placeholder="Wiki-link" id="inputList" name="TekeWikiLink" maxlength="128" value="@bijdrager.Wikilink" required style="text-align: center"/>
+                                </li>
+                                <div class="row d-flex justify-content-center">
+                                    <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 5px; border: none; width: 175px; height: 40px; margin-top: 125px">Update Tekenaar</button>
                                 </div>
-                            </li>
-                            <li id="List1" style="border-bottom: none">
-                                <div class="form-group">
-                                    <input asp-for="BoekData.TekenGeboortedatum" type="date" value="@bijdrager.Geboortedatum" class="form-control" placeholder="JJJJ-MM-DD" style="text-align: center"/>
-                                    <span class="invalid-feedback" asp-validation-for="BoekData.TekenGeboortedatum"></span>
-                                </div>
-                            </li>
-                            <li id="List1" style="border-bottom: none">
-                                <div class="form-group">
-                                    <input asp-for="BoekData.TekenSexe" type="text" value="@bijdrager.Sexe" class="form-control" placeholder="Sexe" pattern="[m,v,o]" maxlength="1" oninput="this.value = this.value.replace(/[^mvo]/, '')" style="text-align: center"/>
-                                    <span class="invalid-feedback" asp-validation-for="BoekData.TekenSexe"></span>
-                                </div>
-                            </li>
-                            <li id="List1">
-                                <div class="form-group">
-                                    <input asp-for="BoekData.TekenWikilink" type="text" value="@bijdrager.Wikilink" class="form-control" placeholder="Wiki-link" maxlength="128" style="text-align: center"/>
-                                    <span class="invalid-feedback" asp-validation-for="BoekData.TekenWikilink"></span>
-                                </div>
-                            </li>
+                            </form>
                         </ul>
                     </div>
                 }

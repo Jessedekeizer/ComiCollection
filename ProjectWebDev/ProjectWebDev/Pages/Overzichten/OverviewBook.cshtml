@@ -38,13 +38,13 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="navbg" href="/Overzichten/MyCollection">
-                        <text style="color: white">My Collection</text>
+                    <a class="nav-link" id="navbg" href="@Model.HREF3">
+                        <text style="color: white">@Model.LINKNAAM3</text>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="navbg" href="/Login/LoginScreen">
-                        <text style="color: white">My Account/Login</text>
+                    <a class="nav-link" id="navbg" href="@Model.HREF4">
+                        <text style="color: white">@Model.LINKNAAM4</text>
                     </a>
                 </li>
             </ul>
@@ -62,22 +62,39 @@
 
                     @foreach (var stripboek in Model.stripboeken)
                     {
-                        <li id="List1" style="border-bottom: none">
+                        <Li>
+                            Titel:
+                        </Li>
+                        <li id="List1">
                             <p>@stripboek.Titel</p>
                         </li>
-                        <li id="List1" style="border-bottom: none">
+                        <Li>
+                            Uitgaverjaar:
+                        </Li>
+                        <li id="List1">
                             <p>@stripboek.Uitgavejaar</p>
                         </li>
-
-                        <li id="List1" style="border-bottom: none">
+                        <Li>
+                            ISBN:
+                        </Li>
+                        <li id="List1">
                             <p>@stripboek.Isbn</p>
                         </li>
-                        <li id="List1" style="border-bottom: none">
+                        <Li>
+                            Blzs:
+                        </Li>
+                        <li id="List1">
                             <p>@stripboek.Blzs</p>
                         </li>
-                        <li id="List1" style="border-bottom: none">
+                        <Li>
+                            Reeks:
+                        </Li>
+                        <li id="List1">
                             <p>@stripboek.Reeks</p>
                         </li>
+                        <Li>
+                            Uitgeverij:
+                        </Li>
                         <li id="List1">
                             <p>@stripboek.Uitgeverij</p>
                         </li>
@@ -94,12 +111,13 @@
                     @foreach (var bijdrager in Model.Auteurs)
                     {
                         <div class="row" style="margin-top: 60px">
+                            Auteur:
                             <ul style="list-style-type:none">
                                 <li id="List1" style="border-bottom: none">
                                     <p>@bijdrager.Naam</p>
                                 </li>
                                 <li id="List1" style="border-bottom: none">
-                                    <p>@(bijdrager.Geboortedatum.ToString("yyyy/MM/dd"))</p>
+                                    <p>@(bijdrager.Geboortedatum.ToString("yyyy-MM-dd"))</p>
                                 </li>
                                 <li id="List1" style="border-bottom: none">
                                     <p>@bijdrager.Sexe</p>
@@ -117,12 +135,13 @@
                 @foreach (var bijdrager in Model.Tekenaars)
                 {
                     <div class="row" style="margin-top: 60px">
+                        Tekenaar:
                         <ul style="list-style-type:none">
                             <li id="List1" style="border-bottom: none">
                                 <p>@bijdrager.Naam</p>
                             </li>
                             <li id="List1" style="border-bottom: none">
-                                <p>@bijdrager.Geboortedatum</p>
+                                <p>@(bijdrager.Geboortedatum.ToString("yyyy-MM-dd"))</p>
                             </li>
                             <li id="List1" style="border-bottom: none">
                                 <p>@bijdrager.Sexe</p>
