@@ -107,22 +107,4 @@ public class AccountScreenUser : PageModel
         
         return RedirectToPage(new{warning = Warning});
     }
-    public IActionResult OnPostDark()
-    {
-        Kleuren = new KleurenSchema();
-
-        return Page();
-    }
-    public IActionResult OnPostWhite()
-    {
-        
-        
-        return Page(); 
-    }
-    public IActionResult OnPostNormal()
-    {
-         
-        
-        return Page();
-    }
 }
