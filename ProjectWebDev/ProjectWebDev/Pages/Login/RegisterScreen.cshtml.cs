@@ -44,7 +44,7 @@ public class RegisterScreen : PageModel
         {
             var hashedPassword = new PasswordHasher<object?>().HashPassword(null, Register.Password);
             new GebruikerRepository().AddUser(Register.Username, Register.Email, hashedPassword, 'u');
-            return RedirectToPage();
+            return RedirectToPage("/Login/LoginScreen");
         }
         if (chkUser)
             return RedirectToPage(new {warning = 1});
