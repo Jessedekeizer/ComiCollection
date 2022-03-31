@@ -217,21 +217,6 @@
                     </form>
                 </div>
             </div>
-
-            <form method="post" asp-page-handler="Logout">
-                <button type="submit" style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 100px; height: 30px" name="Logout">Logout</button>
-            </form>
-            <div class="row">
-                <form method="post" asp-page-handler="Dark">
-                <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px" name="Dark" id="Dark">Dark mode</button>
-                </form>
-                <form method="post" asp-page-handler="White">
-                <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px" name="White" id="White">White mode</button>
-                </form>
-                <form method="post" asp-page-handler="Normal">
-                <button style="background-color: @Model.Kleuren.active; color: white; border-radius: 8px; border: none; margin-left: 10px; width: 175px; height: 30px" name="Normal" id="Normal">Normal mode</button>
-                </form>
-            </div>
         </div>
     </div>
 </div>
