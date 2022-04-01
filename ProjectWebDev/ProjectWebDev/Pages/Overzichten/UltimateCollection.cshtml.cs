@@ -110,7 +110,7 @@ public class UltimateCollection : PageModel
 
         //Zet de settingsobject weer om in json (soort string) code.
         json = JsonConvert.SerializeObject(settings);
-        Response.Cookies.Append("settings", json.ToString());
+        Response.Cookies.Append("settings", json);
         return Page();
     }
 
@@ -138,7 +138,7 @@ public class UltimateCollection : PageModel
 
         //Update de settings cookie hier.
         json = JsonConvert.SerializeObject(settings);
-        Response.Cookies.Append("settings", json.ToString());
+        Response.Cookies.Append("settings", json);
 
         return RedirectToPage();
     }
@@ -166,7 +166,7 @@ public class UltimateCollection : PageModel
 
         //Update de settings cookie hier.
         json = JsonConvert.SerializeObject(settings);
-        Response.Cookies.Append("settings", json.ToString());
+        Response.Cookies.Append("settings", json);
 
         return RedirectToPage();
     }
@@ -194,7 +194,7 @@ public class UltimateCollection : PageModel
 
         //Update de settings cookie hier.
         json = JsonConvert.SerializeObject(settings);
-        Response.Cookies.Append("settings", json.ToString());
+        Response.Cookies.Append("settings", json);
 
         return RedirectToPage();
     }
@@ -222,7 +222,7 @@ public class UltimateCollection : PageModel
 
         //Update de settings cookie hier.
         json = JsonConvert.SerializeObject(settings);
-        Response.Cookies.Append("settings", json.ToString());
+        Response.Cookies.Append("settings", json);
 
         return RedirectToPage();
     }
